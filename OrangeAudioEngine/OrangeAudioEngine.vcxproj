@@ -92,6 +92,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="OAEAudioFileManager.cpp" />
     <ClCompile Include="OrangeAudioEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +102,7 @@
     <ClInclude Include="OAELogger.h" />
     <ClInclude Include="OAEPrecompiled.h" />
     <ClInclude Include="OAEXAudioIncludes.h" />
+    <ClInclude Include="OAEAudioFileManager.h" />
     <ClInclude Include="OrangeAudioEngine.h" />
     <ClInclude Include="OrangeAudioEngineDefs.h" />
   </ItemGroup>

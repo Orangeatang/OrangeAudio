@@ -34,6 +34,9 @@
     <ClCompile Include="OAEBasicTypes.cpp">
       <Filter>Maths</Filter>
     </ClCompile>
+    <ClCompile Include="OAEAudioFileManager.cpp">
+      <Filter>AudioFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OAEPrecompiled.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="OAEBasicTypes.h">
       <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEAudioFileManager.h">
+      <Filter>AudioFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

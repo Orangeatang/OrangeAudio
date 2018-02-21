@@ -1,0 +1,14 @@
+* Audio file loading
+	- Have a base class that contains 
+		XAUDIO2_BUFFER 
+		WAVFORMATEX
+		2D/3D
+	- Audio files can be flagged for streaming or in-memory
+	- Have an OAEAudioFileImplementation instance
+		create based on file type being read in
+* Audio Object
+	- Unique identifier
+	- IXAudio2SourceVoice
+	- Loaded/Streamed audio files
+	- Emitter X3DAUDIO_EMITTER /Listener X3DAUDIO_LISTENER to handle 3D
+	- 3D Position

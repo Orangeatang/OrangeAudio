@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OrangeAudioEngine", "OrangeAudioEngine\OrangeAudioEngine.vcxproj", "{F188FF91-6E6D-4FBC-B2B3-475B59970C53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4C63B2C1-2E1D-49B1-B3CC-FCFF8189B472}"
+	ProjectSection(SolutionItems) = preProject
+		ToDo.txt = ToDo.txt
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OrangeAudioTest", "OrangeAudioTest\OrangeAudioTest.vcxproj", "{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F188FF91-6E6D-4FBC-B2B3-475B59970C53}.Debug|x64.ActiveCfg = Debug|x64
+		{F188FF91-6E6D-4FBC-B2B3-475B59970C53}.Debug|x64.Build.0 = Debug|x64
+		{F188FF91-6E6D-4FBC-B2B3-475B59970C53}.Debug|x86.ActiveCfg = Debug|x64
+		{F188FF91-6E6D-4FBC-B2B3-475B59970C53}.Release|x64.ActiveCfg = Release|x64
+		{F188FF91-6E6D-4FBC-B2B3-475B59970C53}.Release|x64.Build.0 = Release|x64
+		{F188FF91-6E6D-4FBC-B2B3-475B59970C53}.Release|x86.ActiveCfg = Release|x64
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Debug|x64.ActiveCfg = Debug|x64
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Debug|x64.Build.0 = Debug|x64
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Debug|x86.ActiveCfg = Debug|Win32
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Debug|x86.Build.0 = Debug|Win32
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Release|x64.ActiveCfg = Release|x64
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Release|x64.Build.0 = Release|x64
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Release|x86.ActiveCfg = Release|Win32
+		{C4D0DD51-CA3B-4D90-A4E2-AEC422D71308}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

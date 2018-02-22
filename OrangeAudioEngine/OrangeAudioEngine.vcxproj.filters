@@ -37,6 +37,9 @@
     <ClCompile Include="OAEAudioFileManager.cpp">
       <Filter>AudioFiles</Filter>
     </ClCompile>
+    <ClCompile Include="OAEWavFile.cpp">
+      <Filter>AudioFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OAEPrecompiled.h">
@@ -60,6 +63,9 @@
       <Filter>Maths</Filter>
     </ClInclude>
     <ClInclude Include="OAEAudioFileManager.h">
+      <Filter>AudioFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEWavFile.h">
       <Filter>AudioFiles</Filter>
     </ClInclude>
   </ItemGroup>

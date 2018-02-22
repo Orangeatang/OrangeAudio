@@ -12,6 +12,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 class COAEAudioObject;
+class IOAEAudioFile;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -44,6 +45,7 @@ typedef float                                       OAFloat32;
 typedef double                                      OAFloat64;
 
 typedef std::shared_ptr<COAEAudioObject>            OAObjectPtr;
+typedef std::shared_ptr<IOAEAudioFile>              OAAudioFilePtr;
 typedef std::unordered_map<OAInt64, OAObjectPtr>    OAObjectMap;
 
 //////////////////////////////////////////////////////////////////////////

@@ -4,40 +4,34 @@
 /// Includes
 //////////////////////////////////////////////////////////////////////////
 
-#include <OrangeAudioEngineDefs.h>
+#include <OAEAudioFile.h>
 
 
 //////////////////////////////////////////////////////////////////////////
-/// COAEAudioFile
+/// COAEWavFile
 //////////////////////////////////////////////////////////////////////////
 
-// abstract base class for all audio file types
-class IOAEAudioFile
+class COAEWavFile : public IOAEAudioFile
 {
 public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAEAudioFile( const OAUInt64& anId );
-    ~IOAEAudioFile();
+    COAEWavFile( OAUInt64 anId );
+    ~COAEWavFile();
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool    LoadFile( const std::string& aFilePath ) = 0;
+    bool LoadFile(  const std::string& aFilePath ) override;
+
+
+private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    const OAUInt64& GetId() const;
-
-
-protected:
-
-    //////////////////////////////////////////////////////////////////////////
-
-    OAUInt64                m_id;
-
-    WAVEFORMATEXTENSIBLE    m_wavFormat;
-    XAUDIO2_BUFFER          m_buffer;
+    bool LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition );
+    bool ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset );
 };
+
 
 //////////////////////////////////////////////////////////////////////////

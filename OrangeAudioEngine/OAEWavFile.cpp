@@ -52,7 +52,7 @@ bool COAEWavFile::LoadFile( const std::string& aFilePath )
 	}
 
 	// locate the RIFF chunk
-	OAUInt32 chunkSize, chunkPosition;
+	OAInt32 chunkSize, chunkPosition;
 	LocateChunk( g_riffChunk, chunkSize, chunkPosition );
 
 	m_fileStream.close();
@@ -61,7 +61,7 @@ bool COAEWavFile::LoadFile( const std::string& aFilePath )
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition )
+bool COAEWavFile::LocateChunk( const OAInt32 aRiffChunkType, OAInt32& aChunkSize, OAInt32& aChunkPosition )
 {
 	if( !m_fileStream.is_open() )
 	{
@@ -71,7 +71,7 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 	// seek to the very start of the file
 	m_fileStream.seekg( 0, std::fstream::beg );
 
-	OAUInt32	type = 0, size = 0, fileType = 0, bytesRead = 0, offset = 0;
+	OAInt32	    type = 0, size = 0, fileType = 0, bytesRead = 0, offset = 0;
 	bool		continueSearching = true;
 	bool		success			  = false;
 
@@ -79,7 +79,7 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 	while( continueSearching )
 	{
 		// read in the next chunk type
-		m_fileStream.read( (char*)&type, sizeof(OAUInt32) );
+		m_fileStream.read( (char*)&type, sizeof(OAInt32) );
 		if( m_fileStream.fail() )
 		{
 			continueSearching = false;
@@ -87,19 +87,19 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 		}
 
 		// read in the next chunk size
-		m_fileStream.read( (char*)&size, sizeof(OAUInt32) );
+		m_fileStream.read( (char*)&size, sizeof(OAInt32) );
 		if( m_fileStream.fail() )
 		{
 			continueSearching = false;
 			continue;
 		}
 
-		// if we hit the RIFF chunk we need to read in the file type as well
 		switch( type )
 		{
+		// if we hit the RIFF chunk we need to read in the file type as well
 		case g_riffChunk:
 			size = 4;
-			m_fileStream.read( (char*)&fileType, sizeof(OAUInt32) );
+			m_fileStream.read( (char*)&fileType, sizeof(OAInt32) );
 			if( m_fileStream.fail() )
 			{
 				continueSearching = false;
@@ -107,9 +107,32 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 			}
 			break;
 
+        // otherwise set the file point to past the chunk's data
 		default:
+            m_fileStream.seekg( size, std::fstream::cur );
+            if( m_fileStream.fail() )
+            {
+                continueSearching = false;
+                continue;
+            }
 			break;
 		}
+
+        // increment the offset by the size and type of the chunk
+        offset = sizeof(OAInt32) * 2;
+
+        // if we've found the chunk, stop searching
+        if( type == aRiffChunkType )
+        {
+            aChunkSize          = size;
+            aChunkPosition      = offset;
+            success             = true;
+            continueSearching   = false;
+            continue;
+        }
+
+        // otherwise add the size of the chunk to the offset and continue searching
+        offset += size;
 	}
 		
     return success;
@@ -117,7 +140,7 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset )
+bool COAEWavFile::ReadChunk( void* aBuffer, OAInt32 aBufferSize, OAInt32 aBufferOffset )
 {
     return true;
 }

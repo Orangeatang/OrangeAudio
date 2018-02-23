@@ -50,12 +50,13 @@ bool COrangeAudioEngine::Initialize()
         return false;
     }
 	
-	// initialize x3DAudio
+    // the mastering voice in xaudio2 v2.7 (DXSDK) doesn't support GetChannelMask
 	DWORD channelMask = 1;
+#if !USE_DXSDK
 	m_xaudioMasteringVoice->GetChannelMask( &channelMask );
-
+#else
+#endif
 	X3DAudioInitialize( channelMask, X3DAUDIO_SPEED_OF_SOUND, m_x3DInstance );
-
 
     OAELog->LogMessage( ELogMesageType::ELogMessageType_Info, "OrangeAudioEngine initialization complete");
 

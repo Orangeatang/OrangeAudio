@@ -1,1 +1,0 @@
-[INFO]	2018-02-22.18:58:46	OrangeAudioEngine initialization complete

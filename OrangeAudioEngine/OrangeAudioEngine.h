@@ -36,19 +36,27 @@ public :
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool Initialize();
-    void Uninitialize();
+    bool			Initialize();
+    void			Uninitialize();
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool RegisterEmitter( const OAUInt64& anId );
-    void UnregisterEmitter( const OAUInt64& anId );
+    bool			RegisterEmitter( const OAUInt64& anId );
+    void			UnregisterEmitter( const OAUInt64& anId );
 
-    bool RegisterListener( const OAUInt64& anId );
-    void UnregisterListener( const OAUInt64& anId );
+    bool			RegisterListener( const OAUInt64& anId );
+    void			UnregisterListener( const OAUInt64& anId );
+
+	//////////////////////////////////////////////////////////////////////////
+
+	OAInt32			PlaySound( const OAUInt64& anEmitterId, const std::string& anAudioFile );
 
 
 private:
+
+	//////////////////////////////////////////////////////////////////////////
+
+	OAObjectPtr		GetEmitter( const OAUInt64& anEmitterId );
 
     //////////////////////////////////////////////////////////////////////////
 

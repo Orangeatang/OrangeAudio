@@ -162,6 +162,38 @@ void COrangeAudioEngine::UnregisterListener( const OAUInt64& anId )
 
 //////////////////////////////////////////////////////////////////////////
 
+OAInt32 COrangeAudioEngine::PlaySound( const OAUInt64& anEmitterId, const std::string& anAudioFile )
+{
+	if( !m_initialized )
+	{
+		return 0;
+	}
+
+	OAObjectPtr emitter = GetEmitter( anEmitterId );
+	if( emitter == nullptr )
+	{
+		return 0;
+	}
+
+	emitter->PlaySound( anAudioFile );
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+OAObjectPtr COrangeAudioEngine::GetEmitter( const OAUInt64& anEmitterId )
+{
+	auto emitter = m_emitters.find( anEmitterId );
+	if( emitter != m_emitters.end() )
+	{
+		return emitter->second;
+	}
+
+	return nullptr;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
 void COrangeAudioEngine::Cleanup()
 {
     // clean up the emitters

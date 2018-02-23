@@ -8,15 +8,20 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-/// Defines
+/// Globals
 //////////////////////////////////////////////////////////////////////////
+
+static const OAInt32 g_riffChunk	= 'FFIR';
+static const OAInt32 g_dataChunk	= 'atad';
+static const OAInt32 g_formatChunk	= 'tmf';
+static const OAInt32 g_waveChunk	= 'EVAW';
 
 
 //////////////////////////////////////////////////////////////////////////
 /// COAEWavFile
 //////////////////////////////////////////////////////////////////////////
 
-COAEWavFile::COAEWavFile(  OAUInt64 anId ) : IOAEAudioFile( anId )
+COAEWavFile::COAEWavFile( OAUInt64 anId ) : IOAEAudioFile( anId )
 {
 }
 
@@ -30,6 +35,15 @@ COAEWavFile::~COAEWavFile()
 
 bool COAEWavFile::LoadFile( const std::string& aFilePath )
 {
+	// open the file
+	std::fstream wavFile;
+	wavFile.open( aFilePath.c_str(), std::fstream::in );
+	if( !wavFile.is_open() )
+	{
+		return false;
+	}
+
+	wavFile.close();
     return true;
 }
 

@@ -33,6 +33,7 @@ output/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
+OAElog*
 
 # NUNIT
 *.VisualState.xml

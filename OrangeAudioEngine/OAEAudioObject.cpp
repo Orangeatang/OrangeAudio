@@ -6,6 +6,8 @@
 #include "OAEPrecompiled.h"
 #include "OAEAudioObject.h"
 
+#include "OAEWavFile.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 /// COAEAudioObject
@@ -20,6 +22,18 @@ COAEAudioObject::COAEAudioObject( OAInt64 anId ) :
 
 COAEAudioObject::~COAEAudioObject()
 {
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+OAInt32 COAEAudioObject::PlaySound( const std::string& anAudioFile )
+{
+	// test loading a .wav file before hooking code up with file manager
+	COAEWavFile* wavFile = new COAEWavFile(1);
+	wavFile->LoadFile(anAudioFile);
+	delete wavFile;
+
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 // xaudio
-#include <OAEXAudioIncludes.h>
+#include <OAEAudioIncludes.h>
 
 // std
 #include <fstream>

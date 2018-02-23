@@ -45,9 +45,6 @@
     <ClInclude Include="OAEPrecompiled.h">
       <Filter>Precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="OAEXAudioIncludes.h">
-      <Filter>Precompiled</Filter>
-    </ClInclude>
     <ClInclude Include="OAELogger.h">
       <Filter>Logging</Filter>
     </ClInclude>
@@ -67,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="OAEWavFile.h">
       <Filter>AudioFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEAudioIncludes.h">
+      <Filter>Precompiled</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

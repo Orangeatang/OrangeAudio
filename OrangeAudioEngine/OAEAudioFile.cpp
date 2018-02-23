@@ -14,7 +14,8 @@
 IOAEAudioFile::IOAEAudioFile( const OAUInt64& anId ) :
     m_id( anId ),
     m_wavFormat( {0} ),
-    m_buffer( {0} )
+    m_xaudioBuffer( {0} ),
+    m_dataBuffer( nullptr )
 {
 }
 
@@ -22,6 +23,7 @@ IOAEAudioFile::IOAEAudioFile( const OAUInt64& anId ) :
 
 IOAEAudioFile::~IOAEAudioFile()
 {
+    delete m_dataBuffer;
 }
 
 //////////////////////////////////////////////////////////////////////////

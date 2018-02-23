@@ -29,8 +29,9 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool LocateChunk( const OAInt32 aRiffChunkType, OAInt32& aChunkSize, OAInt32& aChunkPosition );
-    bool ReadChunk( void* aBuffer, OAInt32 aBufferSize, OAInt32 aBufferOffset );
+    bool LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition );
+    bool ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset );
+    void InitializeXAudioBuffer( OAUInt32 aDataSize );
 
 	//////////////////////////////////////////////////////////////////////////
 

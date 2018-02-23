@@ -19,7 +19,7 @@ public:
     //////////////////////////////////////////////////////////////////////////
 
     IOAEAudioFile( const OAUInt64& anId );
-    ~IOAEAudioFile();
+    virtual ~IOAEAudioFile();
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +39,8 @@ protected:
 	std::fstream			m_fileStream;
 
     WAVEFORMATEXTENSIBLE    m_wavFormat;
-    XAUDIO2_BUFFER          m_buffer;
+    XAUDIO2_BUFFER          m_xaudioBuffer;
+    OAUInt8*                m_dataBuffer;
 };
 
 //////////////////////////////////////////////////////////////////////////

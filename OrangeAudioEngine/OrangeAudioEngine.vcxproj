@@ -171,7 +171,7 @@
     <ClInclude Include="OAELogger.h" />
     <ClInclude Include="OAEPrecompiled.h" />
     <ClInclude Include="OAEWavFile.h" />
-    <ClInclude Include="OAEXAudioIncludes.h" />
+    <ClInclude Include="OAEAudioIncludes.h" />
     <ClInclude Include="OrangeAudioEngine.h" />
     <ClInclude Include="OrangeAudioEngineDefs.h" />
   </ItemGroup>

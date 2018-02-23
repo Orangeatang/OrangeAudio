@@ -31,6 +31,10 @@ private:
 
     bool LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition );
     bool ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset );
+
+	//////////////////////////////////////////////////////////////////////////
+
+	std::string m_filePath;
 };
 
 

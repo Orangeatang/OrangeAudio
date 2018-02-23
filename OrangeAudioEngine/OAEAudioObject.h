@@ -18,8 +18,7 @@
 
 // audio objects are used to play audio files. each object keeps track of it's active file ids
 // using the audio file manager.
-// NOTE: Probably don't need to expose this to the DLL
-class ORANGEAUDIOENGINE_DLL COAEAudioObject
+class COAEAudioObject
 {
 public:
 

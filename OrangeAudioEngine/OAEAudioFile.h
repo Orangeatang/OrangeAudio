@@ -36,6 +36,8 @@ protected:
 
     OAUInt64                m_id;
 
+	std::fstream			m_fileStream;
+
     WAVEFORMATEXTENSIBLE    m_wavFormat;
     XAUDIO2_BUFFER          m_buffer;
 };

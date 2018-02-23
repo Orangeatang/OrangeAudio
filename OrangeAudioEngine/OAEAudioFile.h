@@ -27,7 +27,10 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    const OAUInt64& GetId() const;
+    const OAUInt64&             GetId() const;
+    const WAVEFORMATEXTENSIBLE* GetWaveFormat() const;
+    const XAUDIO2_BUFFER*       GetAudioBuffer() const;
+    const OAUInt8*              GetAudioData() const;
 
 
 protected:

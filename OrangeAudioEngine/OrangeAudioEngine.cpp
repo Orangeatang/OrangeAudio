@@ -176,7 +176,7 @@ OAInt32 COrangeAudioEngine::PlaySound( const OAUInt64& anEmitterId, const std::s
 		return 0;
 	}
 
-	emitter->PlaySound( anAudioFile );
+	emitter->PlaySound( anAudioFile, *m_xaudioInterface );
 	return 0;
 }
 

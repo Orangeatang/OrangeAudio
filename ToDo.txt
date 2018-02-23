@@ -1,14 +1,11 @@
-* Audio file loading
-	- Have a base class that contains 
-		XAUDIO2_BUFFER 
-		WAVFORMATEX
-		2D/3D
-	- Audio files can be flagged for streaming or in-memory
-	- Have an OAEAudioFileImplementation instance
-		create based on file type being read in
-* Audio Object
-	- Unique identifier
-	- IXAudio2SourceVoice
-	- Loaded/Streamed audio files
-	- Emitter X3DAUDIO_EMITTER /Listener X3DAUDIO_LISTENER to handle 3D
-	- 3D Position
+* implement an audio object that generates it's own audio data, subclassed from audio object
+	- build a sine wave generator
+* implement ability to stream audio
+* make the application loop while the audio engine is active
+* implement file manager
+* rename audio object to audio emitter, or create a that derives from audio object
+* work out how to handle different wav formats
+	- handle different wav formats with different voices in the same audio object?
+* build a DFT for processing audio signals
+* improve DFT by implementing an FFT
+* build a c# interface to the audio engine

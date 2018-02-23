@@ -46,7 +46,7 @@ int main()
 	audioEngine->PlaySound( g_defaultEmitter, "Data/RolandRhumba.wav" );
 
 	// pause in case we want to inspect the COrangeAudioEngine instance
-	// system( "pause" );
+	system( "pause" );
 
 	audioEngine->Uninitialize();
 	delete audioEngine;

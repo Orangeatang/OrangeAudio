@@ -1,22 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="targetver.h">
-      <Filter>Precompiled</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Precompiled</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="OrangeAudioTest.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Precompiled</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Precompiled">
-      <UniqueIdentifier>{e5e5bf54-6b06-467c-810d-472e7b47990b}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
 </Project>

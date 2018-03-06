@@ -32,7 +32,6 @@ OAInt32 COAEAudioObject::PlaySound( const std::string& anAudioFile, IXAudio2& an
 	// test loading a .wav file before hooking code up with file manager
 	COAEWavFile* wavFile = new COAEWavFile(1);
 	wavFile->LoadFile(anAudioFile);
-	//delete wavFile;
 
     HRESULT result = anAudioInterface.CreateSourceVoice( &m_voice, (WAVEFORMATEX*)(wavFile->GetWaveFormat()) );
     if( result != S_OK )

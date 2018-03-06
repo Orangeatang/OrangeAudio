@@ -7,14 +7,17 @@
     <Filter Include="Logging">
       <UniqueIdentifier>{16fb352c-709a-4c24-98cd-3684904a93f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AudioFiles">
-      <UniqueIdentifier>{18edc5f5-3f88-4d3c-ace9-9a7a335c436c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AudioObjects">
       <UniqueIdentifier>{5b049543-e12e-45a2-b785-b8b43e1eff91}</UniqueIdentifier>
     </Filter>
     <Filter Include="Maths">
       <UniqueIdentifier>{7e077f0e-7b73-4a2f-83de-0e79ed10bd09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioSources">
+      <UniqueIdentifier>{18edc5f5-3f88-4d3c-ace9-9a7a335c436c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{2f2dab86-4401-4d0b-89b6-79713897812e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,7 +29,7 @@
     </ClCompile>
     <ClCompile Include="OrangeAudioEngine.cpp" />
     <ClCompile Include="OAEAudioFile.cpp">
-      <Filter>AudioFiles</Filter>
+      <Filter>AudioSources</Filter>
     </ClCompile>
     <ClCompile Include="OAEAudioObject.cpp">
       <Filter>AudioObjects</Filter>
@@ -34,11 +37,14 @@
     <ClCompile Include="OAEBasicTypes.cpp">
       <Filter>Maths</Filter>
     </ClCompile>
-    <ClCompile Include="OAEAudioFileManager.cpp">
-      <Filter>AudioFiles</Filter>
-    </ClCompile>
     <ClCompile Include="OAEWavFile.cpp">
-      <Filter>AudioFiles</Filter>
+      <Filter>AudioSources</Filter>
+    </ClCompile>
+    <ClCompile Include="OAEAudioSource.cpp">
+      <Filter>AudioSources</Filter>
+    </ClCompile>
+    <ClCompile Include="OAEAudioSourceManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +57,7 @@
     <ClInclude Include="OrangeAudioEngine.h" />
     <ClInclude Include="OrangeAudioEngineDefs.h" />
     <ClInclude Include="OAEAudioFile.h">
-      <Filter>AudioFiles</Filter>
+      <Filter>AudioSources</Filter>
     </ClInclude>
     <ClInclude Include="OAEAudioObject.h">
       <Filter>AudioObjects</Filter>
@@ -59,14 +65,17 @@
     <ClInclude Include="OAEBasicTypes.h">
       <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="OAEAudioFileManager.h">
-      <Filter>AudioFiles</Filter>
-    </ClInclude>
     <ClInclude Include="OAEWavFile.h">
-      <Filter>AudioFiles</Filter>
+      <Filter>AudioSources</Filter>
     </ClInclude>
     <ClInclude Include="OAEAudioIncludes.h">
       <Filter>Precompiled</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEAudioSource.h">
+      <Filter>AudioSources</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEAudioSourceManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

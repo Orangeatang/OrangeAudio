@@ -6,7 +6,7 @@
 
 // NOTE: when changing between Windows 8.1 SDK & DirectX SDK you need to do a full rebuild; the associated libs & headers are 
 // all part of the precompiled header
-#define USE_DXSDK 0
+#define USE_DXSDK 1
 
 
 //////////////////////////////////////////////////////////////////////////

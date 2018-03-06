@@ -150,8 +150,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="OAEAudioFile.cpp" />
-    <ClCompile Include="OAEAudioFileManager.cpp" />
+    <ClCompile Include="OAEAudioSourceManager.cpp" />
     <ClCompile Include="OAEAudioObject.cpp" />
+    <ClCompile Include="OAEAudioSource.cpp" />
     <ClCompile Include="OAEBasicTypes.cpp" />
     <ClCompile Include="OAELogger.cpp" />
     <ClCompile Include="OAEPrecompiled.cpp">
@@ -165,8 +166,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OAEAudioFile.h" />
-    <ClInclude Include="OAEAudioFileManager.h" />
+    <ClInclude Include="OAEAudioSourceManager.h" />
     <ClInclude Include="OAEAudioObject.h" />
+    <ClInclude Include="OAEAudioSource.h" />
     <ClInclude Include="OAEBasicTypes.h" />
     <ClInclude Include="OAELogger.h" />
     <ClInclude Include="OAEPrecompiled.h" />

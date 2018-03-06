@@ -8,26 +8,26 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-/// COEAudioFileManager
+/// IOAEAudioSource
 //////////////////////////////////////////////////////////////////////////
 
-// maintains ref-counted file references
-class COAEFileManager
+// the base interface from which all audio sources are derived
+class IOAEAudioSource
 {
 public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAEFileManager();
-    ~COAEFileManager();
+    IOAEAudioSource( const OAUInt64& anId );
+    virtual ~IOAEAudioSource();
 
 
-private:
+protected:
 
     //////////////////////////////////////////////////////////////////////////
 
-    std::vector<OAAudioFilePtr> m_files;
-    OAUInt64                    m_nextFileId;
+    OAUInt64                m_id;
+    WAVEFORMATEXTENSIBLE    m_wavFormat;
 };
 
 //////////////////////////////////////////////////////////////////////////

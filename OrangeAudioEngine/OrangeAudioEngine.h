@@ -15,6 +15,7 @@ struct  IXAudio2;
 struct  IXAudio2MasteringVoice;
 
 class   COAEAudioObject;
+class   COAESourceManager;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -57,21 +58,21 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    void Cleanup();
+    void            Cleanup();
 
     //////////////////////////////////////////////////////////////////////////
 
-    IXAudio2*               m_xaudioInterface;
-    IXAudio2MasteringVoice* m_xaudioMasteringVoice;
-	X3DAUDIO_HANDLE			m_x3DInstance;
+    IXAudio2*                           m_xaudioInterface;
+    IXAudio2MasteringVoice*             m_xaudioMasteringVoice;
+	X3DAUDIO_HANDLE			            m_x3DInstance;
 
-    bool                    m_initialized;
+    bool                                m_initialized;
 
     // disable warnings about stl containers being inaccessible outside the DLL, these will only be used internally 
 #pragma warning( push )
 #pragma warning( disable: 4251 )
-    OAObjectMap             m_emitters;
-    OAObjectMap             m_listeners;
+    OAObjectMap                         m_emitters;
+    OAObjectMap                         m_listeners;
 #pragma warning( pop )
 };
 

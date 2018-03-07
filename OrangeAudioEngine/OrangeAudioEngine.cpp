@@ -7,6 +7,7 @@
 #include "OrangeAudioEngine.h"
 #include "OAELogger.h"
 #include "OAEAudioObject.h"
+#include "OAESourceManager.h"
 
 
 //////////////////////////////////////////////////////////////////////////

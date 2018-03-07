@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 class COAEAudioObject;
-class IOAEAudioFile;
+class IOAESource;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -25,6 +25,9 @@ class IOAEAudioFile;
 #else
     #define ORANGEAUDIOENGINE_DLL __declspec( dllimport )
 #endif
+
+#define INVALID_AUDIO_SOURCE 0
+#define INVALID_AUDIO_OBJECT 0
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -45,7 +48,7 @@ typedef float                                       OAFloat32;
 typedef double                                      OAFloat64;
 
 typedef std::shared_ptr<COAEAudioObject>            OAObjectPtr;
-typedef std::shared_ptr<IOAEAudioFile>              OAAudioFilePtr;
+typedef std::shared_ptr<IOAESource>                 OASourcePtr;
 typedef std::unordered_map<OAInt64, OAObjectPtr>    OAObjectMap;
 
 //////////////////////////////////////////////////////////////////////////

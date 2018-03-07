@@ -22,7 +22,7 @@ static const OAUInt32 g_waveChunk	= 'EVAW';
 /// COAEWavFile
 //////////////////////////////////////////////////////////////////////////
 
-COAEWavFile::COAEWavFile( OAUInt64 anId ) : IOAEAudioFile( anId )
+COAEWavFile::COAEWavFile( OAUInt64 anId ) : IOAEFile( anId )
 {
 }
 
@@ -34,7 +34,7 @@ COAEWavFile::~COAEWavFile()
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::LoadFile( const std::string& aFilePath )
+bool COAEWavFile::Load( const std::string& aFilePath )
 {
 	// make sure we're not already processing a file
 	if( m_fileStream.is_open() || m_filePath.size() != 0 )

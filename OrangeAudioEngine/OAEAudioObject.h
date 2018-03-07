@@ -11,13 +11,16 @@
 /// Forward Declarations
 //////////////////////////////////////////////////////////////////////////
 
+class COAESoundInstance;
+
 
 //////////////////////////////////////////////////////////////////////////
 /// COAEAudioObject
 //////////////////////////////////////////////////////////////////////////
 
-// audio objects are used to play audio files. each object keeps track of it's active file ids
-// using the audio file manager.
+// COAEAudioObject is used to play sounds on the mastering voice. each object
+// maintains a list of COAESound instaces, which are used to feed audio buffers
+// to source voice
 class COAEAudioObject
 {
 public:
@@ -36,8 +39,13 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    OAInt64                 m_id;
-    IXAudio2SourceVoice*    m_voice;
+    typedef std::shared_ptr<COAESoundInstance> OAESoundPtr;
+
+    //////////////////////////////////////////////////////////////////////////
+
+    OAInt64                     m_id;
+    IXAudio2SourceVoice*        m_voice;
+    std::vector<OAESoundPtr>    m_activeSounds;
 };
 
 //////////////////////////////////////////////////////////////////////////

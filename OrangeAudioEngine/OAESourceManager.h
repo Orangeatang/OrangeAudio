@@ -8,26 +8,26 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-/// IOAEAudioSource
+/// COAEAudioSourceManager
 //////////////////////////////////////////////////////////////////////////
 
-// the base interface from which all audio sources are derived
-class IOAEAudioSource
+// maintains all instances of audio sources
+class COAESourceManager
 {
 public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAEAudioSource( const OAUInt64& anId );
-    virtual ~IOAEAudioSource();
+    COAESourceManager();
+    ~COAESourceManager();
 
 
-protected:
+private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    OAUInt64                m_id;
-    WAVEFORMATEXTENSIBLE    m_wavFormat;
+    std::vector<OASourcePtr>    m_sources;
+    OAUInt64                    m_nextSourceId;
 };
 
 //////////////////////////////////////////////////////////////////////////

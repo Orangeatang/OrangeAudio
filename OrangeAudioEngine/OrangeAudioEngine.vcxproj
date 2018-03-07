@@ -149,10 +149,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="OAEAudioFile.cpp" />
-    <ClCompile Include="OAEAudioSourceManager.cpp" />
+    <ClCompile Include="OAEFile.cpp" />
+    <ClCompile Include="OAESourceManager.cpp" />
     <ClCompile Include="OAEAudioObject.cpp" />
-    <ClCompile Include="OAEAudioSource.cpp" />
+    <ClCompile Include="OAESource.cpp" />
     <ClCompile Include="OAEBasicTypes.cpp" />
     <ClCompile Include="OAELogger.cpp" />
     <ClCompile Include="OAEPrecompiled.cpp">
@@ -161,17 +161,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="OAESoundInstance.cpp" />
     <ClCompile Include="OAEWavFile.cpp" />
     <ClCompile Include="OrangeAudioEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OAEAudioFile.h" />
-    <ClInclude Include="OAEAudioSourceManager.h" />
+    <ClInclude Include="OAEFile.h" />
+    <ClInclude Include="OAESourceManager.h" />
     <ClInclude Include="OAEAudioObject.h" />
-    <ClInclude Include="OAEAudioSource.h" />
+    <ClInclude Include="OAESource.h" />
     <ClInclude Include="OAEBasicTypes.h" />
     <ClInclude Include="OAELogger.h" />
     <ClInclude Include="OAEPrecompiled.h" />
+    <ClInclude Include="OAESoundInstance.h" />
     <ClInclude Include="OAEWavFile.h" />
     <ClInclude Include="OAEAudioIncludes.h" />
     <ClInclude Include="OrangeAudioEngine.h" />

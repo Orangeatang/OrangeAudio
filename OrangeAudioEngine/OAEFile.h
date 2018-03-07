@@ -5,6 +5,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include <OrangeAudioEngineDefs.h>
+#include <OAESource.h>
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -12,38 +13,32 @@
 //////////////////////////////////////////////////////////////////////////
 
 // abstract base class for all audio file types
-class IOAEAudioFile
+class IOAEFile : public IOAESource
 {
 public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAEAudioFile( const OAUInt64& anId );
-    virtual ~IOAEAudioFile();
+    IOAEFile( const OAUInt64& anId );
+    virtual ~IOAEFile();
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool    LoadFile( const std::string& aFilePath ) = 0;
+    virtual bool          Load( const std::string& aFilePath ) = 0;
 
     //////////////////////////////////////////////////////////////////////////
 
-    const OAUInt64&             GetId() const;
-    const WAVEFORMATEXTENSIBLE* GetWaveFormat() const;
-    const XAUDIO2_BUFFER*       GetAudioBuffer() const;
-    const OAUInt8*              GetAudioData() const;
+    const XAUDIO2_BUFFER* GetAudioBuffer() const;
+    const OAUInt8*        GetAudioData() const;
 
 
 protected:
 
     //////////////////////////////////////////////////////////////////////////
 
-    OAUInt64                m_id;
-
-	std::fstream			m_fileStream;
-
-    WAVEFORMATEXTENSIBLE    m_wavFormat;
-    XAUDIO2_BUFFER          m_xaudioBuffer;
-    OAUInt8*                m_dataBuffer;
+	std::fstream	m_fileStream;
+    XAUDIO2_BUFFER  m_xaudioBuffer;
+    OAUInt8*        m_dataBuffer;
 };
 
 //////////////////////////////////////////////////////////////////////////

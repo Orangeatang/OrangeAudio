@@ -4,14 +4,14 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "OAEPrecompiled.h"
-#include "OAESoundInstance.h"
+#include "OAEVoice.h"
 
 
 //////////////////////////////////////////////////////////////////////////
 /// COAESoundInstance
 //////////////////////////////////////////////////////////////////////////
 
-COAESoundInstance::COAESoundInstance() :
+COAEVoice::COAEVoice() :
     m_voice( nullptr ),
     m_audioSourceId( INVALID_AUDIO_SOURCE ),
     m_audioBuffers( nullptr )
@@ -20,45 +20,45 @@ COAESoundInstance::COAESoundInstance() :
 
 //////////////////////////////////////////////////////////////////////////
 
-COAESoundInstance::~COAESoundInstance()
+COAEVoice::~COAEVoice()
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAESoundInstance::OnVoiceProcessingPassEnd()
+void COAEVoice::OnVoiceProcessingPassEnd()
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAESoundInstance::OnVoiceProcessingPassStart( UINT32 aSamplesRequired )
+void COAEVoice::OnVoiceProcessingPassStart( UINT32 aSamplesRequired )
 {
     // create and submit the XAUDIO_BUFFER
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAESoundInstance::OnBufferStart( void* aBufferContext )
+void COAEVoice::OnBufferStart( void* aBufferContext )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAESoundInstance::OnBufferEnd( void* aBufferContext )
+void COAEVoice::OnBufferEnd( void* aBufferContext )
 {
     // submit next XAUDIO_BUFFER
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAESoundInstance::OnLoopEnd( void* aBufferContext )
+void COAEVoice::OnLoopEnd( void* aBufferContext )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAESoundInstance::OnVoiceError( void* aBufferContext, HRESULT anError )
+void COAEVoice::OnVoiceError( void* aBufferContext, HRESULT anError )
 {
 }
 

@@ -18,20 +18,24 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAESource( const OAUInt64& anId );
+    IOAESource( const OASourceId& anId );
     virtual ~IOAESource();
 
     //////////////////////////////////////////////////////////////////////////
 
-    const OAUInt64&             GetId() const;
+    const OASourceId&           GetId() const;
     const WAVEFORMATEXTENSIBLE* GetWaveFormat() const;
+
+    //////////////////////////////////////////////////////////////////////////
+    
+    bool operator==( const OASourceId& aSourceId ) const;
 
 
 protected:
 
     //////////////////////////////////////////////////////////////////////////
 
-    OAUInt64                m_id;
+    OASourceId              m_id;
     WAVEFORMATEXTENSIBLE    m_wavFormat;
 };
 

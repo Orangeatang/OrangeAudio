@@ -11,39 +11,37 @@
 /// Forward Declarations
 //////////////////////////////////////////////////////////////////////////
 
-class COAESoundInstance;
+class COAEVoice;
 
 
 //////////////////////////////////////////////////////////////////////////
-/// COAEAudioObject
+/// COAEEmitterObject
 //////////////////////////////////////////////////////////////////////////
 
-// COAEAudioObject is used to play sounds on the mastering voice. each object
-// maintains a list of COAESound instaces, which are used to feed audio buffers
-// to source voice
-class COAEAudioObject
+// COAEEmitterObecjt is used to manage vocies plaing sounds on the mastering voice
+class COAEEmitterObject
 {
 public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAEAudioObject( OAInt64 anId );
-    ~COAEAudioObject();
+    COAEEmitterObject( OAEmitterId anId );
+    ~COAEEmitterObject();
 
 	//////////////////////////////////////////////////////////////////////////
 
-	OAInt32 PlaySound( const std::string& anAudioFile, IXAudio2& anAudioInterface );
+	OAVoiceId PlaySound( const std::string& anAudioFile, IXAudio2& anAudioInterface );
 
 
 private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    typedef std::shared_ptr<COAESoundInstance> OAESoundPtr;
+    typedef std::shared_ptr<COAEVoice> OAESoundPtr;
 
     //////////////////////////////////////////////////////////////////////////
 
-    OAInt64                     m_id;
+    OAEmitterId                 m_id;
     IXAudio2SourceVoice*        m_voice;
     std::vector<OAESoundPtr>    m_activeSounds;
 };

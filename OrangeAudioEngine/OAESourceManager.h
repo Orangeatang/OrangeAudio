@@ -21,13 +21,17 @@ public:
     COAESourceManager();
     ~COAESourceManager();
 
+    //////////////////////////////////////////////////////////////////////////
 
-private:
+    OASourceId  AddSource( const std::string& aFileName );
+
+
+private:   
 
     //////////////////////////////////////////////////////////////////////////
 
-    std::vector<OASourcePtr>    m_sources;
-    OAUInt64                    m_nextSourceId;
+    std::vector<OASourcePtr>    m_fileSources;
+    OASourceId                  m_nextSourceId;
 };
 
 //////////////////////////////////////////////////////////////////////////

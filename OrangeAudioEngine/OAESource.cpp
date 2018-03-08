@@ -11,7 +11,7 @@
 /// IOAEAudioSource
 //////////////////////////////////////////////////////////////////////////
 
-IOAESource::IOAESource( const OAUInt64& anId ) :
+IOAESource::IOAESource( const OASourceId& anId ) :
     m_id( anId ),
     m_wavFormat( {0} )
 {
@@ -25,7 +25,7 @@ IOAESource::~IOAESource()
 
 //////////////////////////////////////////////////////////////////////////
 
-const OAUInt64& IOAESource::GetId() const
+const OASourceId& IOAESource::GetId() const
 {
     return m_id;
 }
@@ -35,6 +35,13 @@ const OAUInt64& IOAESource::GetId() const
 const WAVEFORMATEXTENSIBLE* IOAESource::GetWaveFormat() const
 {
     return &m_wavFormat;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+bool IOAESource::operator==( const OASourceId& aSourceId ) const
+{
+    return m_id == aSourceId;
 }
 
 //////////////////////////////////////////////////////////////////////////

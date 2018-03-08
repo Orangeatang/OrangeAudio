@@ -22,7 +22,7 @@ static const OAUInt32 g_waveChunk	= 'EVAW';
 /// COAEWavFile
 //////////////////////////////////////////////////////////////////////////
 
-COAEWavFile::COAEWavFile( OAUInt64 anId ) : IOAEFile( anId )
+COAEWavFile::COAEWavFile( const OASourceId& anId ) : IOAEFile( anId )
 {
 }
 

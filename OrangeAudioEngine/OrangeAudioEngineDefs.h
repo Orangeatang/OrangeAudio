@@ -11,7 +11,8 @@
 /// Forward Declarations
 //////////////////////////////////////////////////////////////////////////
 
-class COAEAudioObject;
+class COAEEmitterObject;
+class COAEVoice;
 class IOAESource;
 
 
@@ -26,8 +27,9 @@ class IOAESource;
     #define ORANGEAUDIOENGINE_DLL __declspec( dllimport )
 #endif
 
-#define INVALID_AUDIO_SOURCE 0
-#define INVALID_AUDIO_OBJECT 0
+#define INVALID_AUDIO_SOURCE   0
+#define INVALID_AUDIO_EMITTER  0
+#define INVALID_AUDIO_LISTENER 0
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -47,8 +49,17 @@ typedef __int64                                     OAInt64;
 typedef float                                       OAFloat32;
 typedef double                                      OAFloat64;
 
-typedef std::shared_ptr<COAEAudioObject>            OAObjectPtr;
+//////////////////////////////////////////////////////////////////////////
+
+typedef std::shared_ptr<COAEEmitterObject>          OAEmitterPtr;
+typedef std::shared_ptr<COAEVoice>                  OAVoicePtr;
 typedef std::shared_ptr<IOAESource>                 OASourcePtr;
-typedef std::unordered_map<OAInt64, OAObjectPtr>    OAObjectMap;
+
+//////////////////////////////////////////////////////////////////////////
+
+typedef OAUInt64                                    OAEmitterId; 
+typedef OAUInt64                                    OAListenerId;
+typedef OAUInt64                                    OASourceId;
+typedef OAInt32                                     OAVoiceId;
 
 //////////////////////////////////////////////////////////////////////////

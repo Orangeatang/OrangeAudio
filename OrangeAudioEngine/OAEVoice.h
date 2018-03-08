@@ -11,16 +11,15 @@
 /// COAESound
 //////////////////////////////////////////////////////////////////////////
 
-// COAESoundInstance handles the submission of audio buffers read/streamed in from audio files
-// to the xaudio2 voice
-class COAESoundInstance : public IXAudio2VoiceCallback
+// COAEVoiceInstance represents an instance of a sound asset playing back through the master voice
+class COAEVoice : public IXAudio2VoiceCallback
 {
 public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAESoundInstance();
-    virtual ~COAESoundInstance();
+    COAEVoice();
+    virtual ~COAEVoice();
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +40,6 @@ private:
     //////////////////////////////////////////////////////////////////////////
 
     IXAudio2SourceVoice*    m_voice;
-    OAUInt64                m_audioSourceId;
+    OASourceId              m_audioSourceId;
     OAUInt8**               m_audioBuffers;
 };

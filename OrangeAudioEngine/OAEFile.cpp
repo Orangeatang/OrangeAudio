@@ -11,7 +11,7 @@
 /// IAudioFile
 //////////////////////////////////////////////////////////////////////////
 
-IOAEFile::IOAEFile( const OAUInt64& anId ) : IOAESource( anId ),
+IOAEFile::IOAEFile( const OASourceId& anId ) : IOAESource( anId ),
     m_xaudioBuffer( {0} ),
     m_dataBuffer( nullptr )
 {

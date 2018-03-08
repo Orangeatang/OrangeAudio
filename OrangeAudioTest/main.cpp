@@ -42,6 +42,9 @@ int main()
 		return -1;
 	}
 
+    // add a .wav source
+    audioEngine->AddSource( "Data/RolandRhumba.wav" );
+
 	// play a sound
 	audioEngine->PlaySound( g_defaultEmitter, "Data/RolandRhumba.wav" );
 

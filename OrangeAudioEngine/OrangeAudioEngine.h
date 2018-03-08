@@ -14,7 +14,7 @@
 struct  IXAudio2;
 struct  IXAudio2MasteringVoice;
 
-class   COAEAudioObject;
+class   COAEEmitterObject;
 class   COAESourceManager;
 
 
@@ -39,25 +39,39 @@ public :
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool			RegisterEmitter( const OAUInt64& anId );
-    void			UnregisterEmitter( const OAUInt64& anId );
+    bool			RegisterEmitter( const OAEmitterId& anId );
+    void			UnregisterEmitter( const OAEmitterId& anId );
 
-    bool			RegisterListener( const OAUInt64& anId );
-    void			UnregisterListener( const OAUInt64& anId );
+    bool			RegisterListener( const OAListenerId& anId );
+    void			UnregisterListener( const OAListenerId& anId );
+
+    //////////////////////////////////////////////////////////////////////////
+
+    OASourceId      AddSource( const std::string& aFileName );
+    void            RemoveSource( const OASourceId& aSourceId );
 
 	//////////////////////////////////////////////////////////////////////////
 
-	OAInt32			PlaySound( const OAUInt64& anEmitterId, const std::string& anAudioFile );
+	OAVoiceId   	PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile );
+    OAVoiceId       PlaySound( const OAEmitterId& anEmitterId, const OASourceId& aSourceId );
+
 
 
 private:
 
+    //////////////////////////////////////////////////////////////////////////
+
+    typedef std::unordered_map<OAEmitterId, OAEmitterPtr>    OAEmitterMap;
+    typedef std::unordered_map<OAListenerId, OAEmitterPtr>   OAListenerMap;
+
 	//////////////////////////////////////////////////////////////////////////
 
-	OAObjectPtr		GetEmitter( const OAUInt64& anEmitterId );
+	OAEmitterPtr	GetEmitter( const OAEmitterId& anEmitterId );
 
     //////////////////////////////////////////////////////////////////////////
 
+    bool            InitializeXAudio2();
+    bool            InitializeManagers();
     void            Cleanup();
 
     //////////////////////////////////////////////////////////////////////////
@@ -66,13 +80,15 @@ private:
     IXAudio2MasteringVoice*             m_xaudioMasteringVoice;
 	X3DAUDIO_HANDLE			            m_x3DInstance;
 
+    COAESourceManager*                  m_sourceManager;
+
     bool                                m_initialized;
 
     // disable warnings about stl containers being inaccessible outside the DLL, these will only be used internally 
 #pragma warning( push )
 #pragma warning( disable: 4251 )
-    OAObjectMap                         m_emitters;
-    OAObjectMap                         m_listeners;
+    OAEmitterMap                        m_emitters;
+    OAListenerMap                       m_listeners;
 #pragma warning( pop )
 };
 

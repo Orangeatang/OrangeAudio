@@ -4,7 +4,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "OAEPrecompiled.h"
-#include "OAEAudioObject.h"
+#include "OAEEmitterObject.h"
 
 #include "OAEWavFile.h"
 
@@ -13,7 +13,7 @@
 /// COAEAudioObject
 //////////////////////////////////////////////////////////////////////////
 
-COAEAudioObject::COAEAudioObject( OAInt64 anId ) :
+COAEEmitterObject::COAEEmitterObject( OAEmitterId anId ) :
     m_id( anId ),
     m_voice( nullptr )
 {
@@ -21,13 +21,13 @@ COAEAudioObject::COAEAudioObject( OAInt64 anId ) :
 
 //////////////////////////////////////////////////////////////////////////
 
-COAEAudioObject::~COAEAudioObject()
+COAEEmitterObject::~COAEEmitterObject()
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-OAInt32 COAEAudioObject::PlaySound( const std::string& anAudioFile, IXAudio2& anAudioInterface )
+OAVoiceId COAEEmitterObject::PlaySound( const std::string& anAudioFile, IXAudio2& anAudioInterface )
 {
 	// test loading a .wav file before hooking code up with file manager
 	COAEWavFile* wavFile = new COAEWavFile(1);

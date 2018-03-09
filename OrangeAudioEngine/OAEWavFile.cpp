@@ -22,7 +22,7 @@ static const OAUInt32 g_waveChunk	= 'EVAW';
 /// COAEWavFile
 //////////////////////////////////////////////////////////////////////////
 
-COAEWavFile::COAEWavFile( const OASourceId& anId ) : IOAEFile( anId )
+COAEWavFile::COAEWavFile( const OASourceId& anId, const std::string& aFilePath ) : IOAEFile( anId, aFilePath )
 {
 }
 
@@ -30,38 +30,31 @@ COAEWavFile::COAEWavFile( const OASourceId& anId ) : IOAEFile( anId )
 
 COAEWavFile::~COAEWavFile()
 {
+    Close();
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::Load( const std::string& aFilePath )
+bool COAEWavFile::Open()
 {
-	// make sure we're not already processing a file
-	if( m_fileStream.is_open() || m_filePath.size() != 0 )
-	{
-		OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::LoadFile - file is already open: %s", m_filePath.c_str() );
-		return false;
-	}
-
-	// open the file. we need the binary flag to prevent reads from mistakenly detecting eof flags
-	m_filePath = aFilePath;
-	m_fileStream.open( aFilePath.c_str(), std::ios::in | std::ios::binary );
-	if( !m_fileStream.is_open() )
-	{
-		return false;
-	}
-
-	// locate the RIFF chunk
-	OAUInt32 chunkSize, chunkPosition, fileType;
-	if( !LocateChunk(g_riffChunk, chunkSize, chunkPosition) )
+    // open the file. we need the binary flag to prevent reads from mistakenly detecting eof flags
+    m_fileStream.open( m_filePath.c_str(), std::ios::in | std::ios::binary);
+    if( !m_fileStream.is_open() )
     {
-        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::LoadFile - unable to locate RIFF chunk: %s", m_filePath.c_str() );
+        return false;
+    }
+
+    // locate the RIFF chunk
+    OAUInt32 chunkSize, chunkPosition, fileType;
+    if (!LocateChunk(g_riffChunk, chunkSize, chunkPosition))
+    {
+        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::Open - unable to locate RIFF chunk: %s", m_filePath.c_str() );
         m_fileStream.close();
         return false;
     }
 
     // read in the file type 
-    if( !ReadChunk( &fileType, chunkSize, chunkPosition ) )
+    if( !ReadChunk(&fileType, chunkSize, chunkPosition) )
     {
         m_fileStream.close();
         return false;
@@ -70,40 +63,77 @@ bool COAEWavFile::Load( const std::string& aFilePath )
     // make sure it's a .wav
     if( fileType != g_waveChunk )
     {
-        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::LoadFile - this isn't a .wav file: %s", m_filePath.c_str() );
+        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::Open - this isn't a .wav file: %s", m_filePath.c_str() );
         m_fileStream.close();
         return false;
     }
 
+    return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void COAEWavFile::Close()
+{
+    if( m_fileStream.is_open() )
+    {
+        m_fileStream.close();
+    }
+
+    SetIsValid( false );
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+bool COAEWavFile::LoadWaveFormat()
+{
+    if( !m_isValid )
+    {
+        return false;
+    }
+
+    OAUInt32 chunkSize, chunkPosition;
+
     // locate and load in the wave format structure
     if( !LocateChunk(g_formatChunk, chunkSize, chunkPosition) )
     {
-        m_fileStream.close();
         return false;
     }
 
     if( !ReadChunk(&m_wavFormat, chunkSize, chunkPosition) )
     {
-        m_fileStream.close();
         return false;
     }
+
+    // now that we have the WAVEFORMATEXTENSIBLE structure, indicate that the source vaild
+    SetIsValid( true );
+    return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+bool COAEWavFile::LoadData()
+{
+    if( !IsValid() ) 
+    {
+        return false;
+    }
+
+	OAUInt32 chunkSize, chunkPosition;
 
     // locate and load the data chunk
     if( !LocateChunk(g_dataChunk, chunkSize, chunkPosition) )
     {
-        m_fileStream.close();
         return false;
     }
 
     m_dataBuffer = new OAUInt8[chunkSize];
     if( !ReadChunk(m_dataBuffer, chunkSize, chunkPosition) )
     {
-        m_fileStream.close();
         return false;
     }
 
     InitializeXAudioBuffer( chunkSize );
-	m_fileStream.close();
     return true;
 }
 
@@ -111,11 +141,10 @@ bool COAEWavFile::Load( const std::string& aFilePath )
 
 bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition )
 {
-	if( !m_fileStream.is_open() )
-	{
-        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "COAEWavFile::LocateChunk - File handle is invalid: %s", m_filePath.c_str() );
-		return false;
-	}
+    if( !IsValid() )
+    {
+        return false;
+    }
 
 	// seek to the very start of the file
 	m_fileStream.seekg( 0, std::fstream::beg );
@@ -191,9 +220,8 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 
 bool COAEWavFile::ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset )
 {
-    if( !m_fileStream.is_open() )
+    if( !IsValid() )
     {
-        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "COAEWavFile::ReadChunk - File handle is invalid: %s", m_filePath.c_str() );
         return false;
     }
 
@@ -219,6 +247,11 @@ bool COAEWavFile::ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBuff
 
 void COAEWavFile::InitializeXAudioBuffer( OAUInt32 aDataSize )
 {
+    if( !IsValid() )
+    {
+        return;
+    }
+
     m_xaudioBuffer.AudioBytes = aDataSize;
     m_xaudioBuffer.pAudioData = m_dataBuffer;
     m_xaudioBuffer.Flags      = XAUDIO2_END_OF_STREAM;

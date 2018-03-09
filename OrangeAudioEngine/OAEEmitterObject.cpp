@@ -30,8 +30,10 @@ COAEEmitterObject::~COAEEmitterObject()
 OAVoiceId COAEEmitterObject::PlaySound( const std::string& anAudioFile, IXAudio2& anAudioInterface )
 {
 	// test loading a .wav file before hooking code up with file manager
-	COAEWavFile* wavFile = new COAEWavFile(1);
-	wavFile->Load(anAudioFile);
+	COAEWavFile* wavFile = new COAEWavFile(1, anAudioFile);
+    wavFile->Open();
+    wavFile->LoadWaveFormat();
+    wavFile->LoadData();
 
     HRESULT result = anAudioInterface.CreateSourceVoice( &m_voice, (WAVEFORMATEX*)(wavFile->GetWaveFormat()) );
     if( result != S_OK )

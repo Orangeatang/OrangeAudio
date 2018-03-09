@@ -13,6 +13,7 @@
 
 IOAESource::IOAESource( const OASourceId& anId ) :
     m_id( anId ),
+    m_isValid( false ),
     m_wavFormat( {0} )
 {
 }
@@ -32,6 +33,13 @@ const OASourceId& IOAESource::GetId() const
 
 //////////////////////////////////////////////////////////////////////////
 
+bool IOAESource::IsValid() const
+{
+    return m_isValid;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
 const WAVEFORMATEXTENSIBLE* IOAESource::GetWaveFormat() const
 {
     return &m_wavFormat;
@@ -42,6 +50,13 @@ const WAVEFORMATEXTENSIBLE* IOAESource::GetWaveFormat() const
 bool IOAESource::operator==( const OASourceId& aSourceId ) const
 {
     return m_id == aSourceId;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void IOAESource::SetIsValid( bool anIsValid )
+{
+    m_isValid = anIsValid;
 }
 
 //////////////////////////////////////////////////////////////////////////

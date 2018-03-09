@@ -55,15 +55,48 @@ OASourceId COAESourceManager::AddSource( const std::string& aFileName )
 
     // create the appropriate source instance based on the file type
     std::transform( extension.begin(), extension.end(), extension.begin(), ::tolower ); 
+    OASourcePtr newSource = nullptr;
     if( extension == g_wavExtension )
     {
-        OASourcePtr newSource( new COAEWavFile(m_nextSourceId++) );
-        m_fileSources.push_back( newSource );
+        newSource = CreateWavFileSource( aFileName );
+    }
 
+    // add the source
+    if( newSource != nullptr )
+    {
+        m_fileSources.push_back( newSource );
         return newSource->GetId();
     }
 
     return INVALID_AUDIO_SOURCE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+OASourcePtr COAESourceManager::CreateWavFileSource( const std::string& aFileName )
+{
+    // create the wav file
+    COAEWavFile* newWavFile = new COAEWavFile(m_nextSourceId++, aFileName);
+    if( newWavFile == nullptr )
+    {
+        return nullptr;
+    }
+
+    // open and validate the .wav
+    if( !newWavFile->Open() )
+    {
+        delete newWavFile;
+        return nullptr;
+    }
+
+    // load the wav format
+    if( !newWavFile->LoadWaveFormat() )
+    {
+        delete newWavFile;
+        return nullptr;
+    }
+
+    return OASourcePtr( newWavFile );
 }
 
 //////////////////////////////////////////////////////////////////////////

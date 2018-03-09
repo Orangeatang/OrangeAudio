@@ -17,12 +17,16 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAEWavFile( const OASourceId& anId );
+    COAEWavFile( const OASourceId& anId, const std::string& aFilePath );
     ~COAEWavFile();
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool Load(  const std::string& aFilePath ) override;
+    bool    Open() override;
+    void    Close() override;
+
+    bool    LoadWaveFormat() override;
+    bool    LoadData() override;
 
 
 private:
@@ -32,10 +36,6 @@ private:
     bool LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition );
     bool ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset );
     void InitializeXAudioBuffer( OAUInt32 aDataSize );
-
-	//////////////////////////////////////////////////////////////////////////
-
-	std::string m_filePath;
 };
 
 

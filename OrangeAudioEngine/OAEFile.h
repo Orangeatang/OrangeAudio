@@ -19,24 +19,30 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAEFile( const OASourceId& anId );
+    IOAEFile( const OASourceId& anId, const std::string& aFilePath );
     virtual ~IOAEFile();
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool          Load( const std::string& aFilePath ) = 0;
+    virtual bool            Open()              = 0;
+    virtual void            Close()             = 0;
+
+    virtual bool            LoadWaveFormat()    = 0;
+    virtual bool            LoadData()          = 0;
 
     //////////////////////////////////////////////////////////////////////////
 
-    const XAUDIO2_BUFFER* GetAudioBuffer() const;
-    const OAUInt8*        GetAudioData() const;
+    const XAUDIO2_BUFFER*   GetAudioBuffer() const;
+    const OAUInt8*          GetAudioData() const;
 
 
 protected:
 
     //////////////////////////////////////////////////////////////////////////
 
+    std::string     m_filePath;
 	std::fstream	m_fileStream;
+
     XAUDIO2_BUFFER  m_xaudioBuffer;
     OAUInt8*        m_dataBuffer;
 };

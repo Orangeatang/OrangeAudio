@@ -27,9 +27,10 @@ class IOAESource;
     #define ORANGEAUDIOENGINE_DLL __declspec( dllimport )
 #endif
 
-#define INVALID_AUDIO_SOURCE   0
-#define INVALID_AUDIO_EMITTER  0
-#define INVALID_AUDIO_LISTENER 0
+#define INVALID_AUDIO_SOURCE    0
+#define INVALID_AUDIO_EMITTER   0
+#define INVALID_AUDIO_LISTENER  0
+#define INVALID_AUDIO_VOICE     0
 
 
 //////////////////////////////////////////////////////////////////////////

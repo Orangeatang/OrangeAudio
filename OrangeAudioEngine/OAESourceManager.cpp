@@ -64,11 +64,29 @@ OASourceId COAESourceManager::AddSource( const std::string& aFileName )
     // add the source
     if( newSource != nullptr )
     {
-        m_fileSources.push_back( newSource );
+        m_fileSources[newSource->GetId()] = newSource;
         return newSource->GetId();
     }
 
     return INVALID_AUDIO_SOURCE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+bool COAESourceManager::IsValid( const OASourceId& aSourceId ) const
+{
+    if( aSourceId == INVALID_AUDIO_SOURCE )
+    {
+        return false;
+    }
+
+    OAESourceMap::const_iterator source = m_fileSources.find( aSourceId );
+    if( source != m_fileSources.end() )
+    {
+        return source->second->IsValid();
+    }
+
+    return false;
 }
 
 //////////////////////////////////////////////////////////////////////////

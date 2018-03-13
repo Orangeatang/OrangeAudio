@@ -162,6 +162,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="OAEVoice.cpp" />
+    <ClCompile Include="OAEVoiceManager.cpp" />
     <ClCompile Include="OAEWavFile.cpp" />
     <ClCompile Include="OrangeAudioEngine.cpp" />
   </ItemGroup>
@@ -174,6 +175,7 @@
     <ClInclude Include="OAELogger.h" />
     <ClInclude Include="OAEPrecompiled.h" />
     <ClInclude Include="OAEVoice.h" />
+    <ClInclude Include="OAEVoiceManager.h" />
     <ClInclude Include="OAEWavFile.h" />
     <ClInclude Include="OAEAudioIncludes.h" />
     <ClInclude Include="OrangeAudioEngine.h" />

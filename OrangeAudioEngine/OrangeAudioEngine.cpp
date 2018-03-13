@@ -8,6 +8,7 @@
 #include "OAELogger.h"
 #include "OAEEmitterObject.h"
 #include "OAESourceManager.h"
+#include "OAEVoiceManager.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -66,6 +67,10 @@ void COrangeAudioEngine::Uninitialize()
     m_xaudioInterface->Release();
     m_xaudioInterface = nullptr;
 
+    // delete the managers
+    delete m_voiceManager;
+    delete m_sourceManager;
+
     // make sure we clean up the logger
     OAELog->Destroy();
 }
@@ -85,7 +90,7 @@ bool COrangeAudioEngine::RegisterEmitter( const OAEmitterId& anId )
         return false;
     }
 
-    OAEmitterPtr newEmitter( new COAEEmitterObject(anId) );
+    OAEmitterPtr newEmitter( new COAEEmitterObject(anId, m_voiceManager) );
     m_emitters[anId] = newEmitter;
 
     return true;
@@ -123,7 +128,7 @@ bool COrangeAudioEngine::RegisterListener( const OAListenerId& anId )
         return false;
     }
 
-    OAEmitterPtr newListener( new COAEEmitterObject(anId) );
+    OAEmitterPtr newListener( new COAEEmitterObject(anId, m_voiceManager) );
     m_listeners[anId] = newListener;
 
     return true;
@@ -160,21 +165,38 @@ OASourceId COrangeAudioEngine::AddSource( const std::string& aFileName )
 
 //////////////////////////////////////////////////////////////////////////
 
-OAInt32 COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile )
+OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile )
 {
 	if( !m_initialized )
 	{
-		return 0;
+		return INVALID_AUDIO_VOICE;
 	}
 
 	OAEmitterPtr emitter = GetEmitter( anEmitterId );
-	if( emitter == nullptr )
+	if( !emitter )
 	{
-		return 0;
+		return INVALID_AUDIO_VOICE;
 	}
 
-	emitter->PlaySound( anAudioFile, *m_xaudioInterface );
-	return 0;
+	return emitter->PlaySound( anAudioFile, *m_xaudioInterface );
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const OASourceId& aSourceId )
+{
+    if( !m_initialized )
+    {
+        return INVALID_AUDIO_VOICE;
+    }
+
+    OAEmitterPtr emitter = GetEmitter( anEmitterId );
+    if( !emitter )
+    {
+        return INVALID_AUDIO_VOICE;
+    }
+
+    return emitter->PlaySound( aSourceId );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -231,6 +253,7 @@ bool COrangeAudioEngine::InitializeXAudio2()
 bool COrangeAudioEngine::InitializeManagers()
 {
     m_sourceManager = new COAESourceManager();
+    m_voiceManager  = new COAEVoiceManager( m_sourceManager );
     return true;
 }
 

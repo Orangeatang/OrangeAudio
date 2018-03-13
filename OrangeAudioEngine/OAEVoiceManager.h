@@ -11,45 +11,42 @@
 /// Forward Declarations
 //////////////////////////////////////////////////////////////////////////
 
+class COAESourceManager;
 class COAEVoice;
-class COAEVoiceManager;
 
 
 //////////////////////////////////////////////////////////////////////////
-/// COAEEmitterObject
+/// COAEVoiceManager
 //////////////////////////////////////////////////////////////////////////
 
-// COAEEmitterObecjt is used to manage vocies plaing sounds on the mastering voice
-class COAEEmitterObject
+// manages all of the active voices in the engine
+class COAEVoiceManager
 {
 public:
+    
+    //////////////////////////////////////////////////////////////////////////
+
+    COAEVoiceManager( COAESourceManager* aSourceManager );
+    ~COAEVoiceManager();
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAEEmitterObject( OAEmitterId anId, COAEVoiceManager* aVoiceManager );
-    ~COAEEmitterObject();
-
-	//////////////////////////////////////////////////////////////////////////
-
-	OAVoiceId PlaySound( const std::string& anAudioFile, IXAudio2& anAudioInterface );
-    OAVoiceId PlaySound( const OASourceId& aSourceId );
+    OAVoiceId   CreateVoice( const OASourceId& aSourceId );
+    void        DestroyVoice( const OAVoiceId& aVoiceId );
 
 
 private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    typedef std::shared_ptr<COAEVoice> OAESoundPtr;
+    typedef std::shared_ptr<COAEVoice>                  OAEVoicePtr;
+    typedef std::unordered_map<OAVoiceId, OAEVoicePtr>  OAEVoiceMap;
 
     //////////////////////////////////////////////////////////////////////////
 
-    OAEmitterId                 m_id;
-    COAEVoiceManager*           m_voiceManager;
-
-    //////////////////////////////////////////////////////////////////////////
-
-    // legacy
-    IXAudio2SourceVoice*        m_voice;
+    COAESourceManager*  m_sourceManager;
+    OAEVoiceMap         m_voices;
+    OAVoiceId           m_nextVoiceId;
 };
 
 //////////////////////////////////////////////////////////////////////////

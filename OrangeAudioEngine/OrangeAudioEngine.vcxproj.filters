@@ -49,6 +49,9 @@
     <ClCompile Include="OAEVoice.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="OAEVoiceManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OAEPrecompiled.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="OAEVoice.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEVoiceManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

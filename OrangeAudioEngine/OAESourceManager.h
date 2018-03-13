@@ -25,8 +25,16 @@ public:
 
     OASourceId  AddSource( const std::string& aFileName );
 
+    //////////////////////////////////////////////////////////////////////////
+
+    bool        IsValid( const OASourceId& aSourceId ) const;
+
 
 private:   
+
+    //////////////////////////////////////////////////////////////////////////
+
+    typedef std::unordered_map<OASourceId, OASourcePtr> OAESourceMap;
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +42,8 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    std::vector<OASourcePtr>    m_fileSources;
+    //std::vector<OASourcePtr>    m_fileSources;
+    OAESourceMap                m_fileSources;
     OASourceId                  m_nextSourceId;
 };
 

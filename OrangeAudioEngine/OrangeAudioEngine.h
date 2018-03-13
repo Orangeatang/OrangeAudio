@@ -16,6 +16,7 @@ struct  IXAudio2MasteringVoice;
 
 class   COAEEmitterObject;
 class   COAESourceManager;
+class   COAEVoiceManager;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -81,6 +82,7 @@ private:
 	X3DAUDIO_HANDLE			            m_x3DInstance;
 
     COAESourceManager*                  m_sourceManager;
+    COAEVoiceManager*                   m_voiceManager;
 
     bool                                m_initialized;
 

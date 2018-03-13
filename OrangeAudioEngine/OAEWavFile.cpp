@@ -87,7 +87,7 @@ void COAEWavFile::Close()
 
 bool COAEWavFile::LoadWaveFormat()
 {
-    if( !m_isValid )
+    if( !m_fileStream.is_open() )
     {
         return false;
     }
@@ -141,7 +141,7 @@ bool COAEWavFile::LoadData()
 
 bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition )
 {
-    if( !IsValid() )
+    if( !m_fileStream.is_open() )
     {
         return false;
     }
@@ -220,7 +220,7 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 
 bool COAEWavFile::ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset )
 {
-    if( !IsValid() )
+    if( !m_fileStream.is_open() )
     {
         return false;
     }

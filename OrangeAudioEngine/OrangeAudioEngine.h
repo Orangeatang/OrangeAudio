@@ -56,6 +56,9 @@ public :
 	OAVoiceId   	PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile );
     OAVoiceId       PlaySound( const OAEmitterId& anEmitterId, const OASourceId& aSourceId );
 
+    //////////////////////////////////////////////////////////////////////////
+
+    void            Update( OAFloat32 aDeltaTime );
 
 
 private:
@@ -73,6 +76,13 @@ private:
 
     bool            InitializeXAudio2();
     bool            InitializeManagers();
+
+    //////////////////////////////////////////////////////////////////////////
+
+    void            UpdateManagers( OAFloat32 aDeltaTime );
+
+    //////////////////////////////////////////////////////////////////////////
+
     void            Cleanup();
 
     //////////////////////////////////////////////////////////////////////////

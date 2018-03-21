@@ -32,6 +32,11 @@ COAESourceManager::COAESourceManager() :
 
 COAESourceManager::~COAESourceManager()
 {
+    for( auto source : m_sources )
+    {
+        source.second = nullptr;
+    }
+    m_sources.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -64,11 +69,29 @@ OASourceId COAESourceManager::AddSource( const std::string& aFileName )
     // add the source
     if( newSource != nullptr )
     {
-        m_fileSources[newSource->GetId()] = newSource;
+        m_sources[newSource->GetId()] = newSource;
         return newSource->GetId();
     }
 
     return INVALID_AUDIO_SOURCE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+OASourcePtr COAESourceManager::GetSource( const OASourceId& aSourceId )
+{
+    if( aSourceId == INVALID_AUDIO_SOURCE )
+    {
+        return nullptr;
+    }
+
+    auto iterator = m_sources.find( aSourceId );
+    if( iterator == m_sources.end() )
+    {
+        return nullptr;
+    }
+
+    return iterator->second;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -80,8 +103,8 @@ bool COAESourceManager::IsValid( const OASourceId& aSourceId ) const
         return false;
     }
 
-    OAESourceMap::const_iterator source = m_fileSources.find( aSourceId );
-    if( source != m_fileSources.end() )
+    OAESourceMap::const_iterator source = m_sources.find( aSourceId );
+    if( source != m_sources.end() )
     {
         return source->second->IsValid();
     }

@@ -24,6 +24,7 @@ public:
     //////////////////////////////////////////////////////////////////////////
 
     OASourceId  AddSource( const std::string& aFileName );
+    OASourcePtr GetSource( const OASourceId& aSourceId );
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -42,8 +43,7 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    //std::vector<OASourcePtr>    m_fileSources;
-    OAESourceMap                m_fileSources;
+    OAESourceMap                m_sources;
     OASourceId                  m_nextSourceId;
 };
 

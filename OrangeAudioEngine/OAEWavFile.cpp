@@ -49,14 +49,14 @@ bool COAEWavFile::Open()
     if (!LocateChunk(g_riffChunk, chunkSize, chunkPosition))
     {
         OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::Open - unable to locate RIFF chunk: %s", m_filePath.c_str() );
-        m_fileStream.close();
+        Close();
         return false;
     }
 
     // read in the file type 
     if( !ReadChunk(&fileType, chunkSize, chunkPosition) )
     {
-        m_fileStream.close();
+        Close();
         return false;
     }
 
@@ -64,7 +64,15 @@ bool COAEWavFile::Open()
     if( fileType != g_waveChunk )
     {
         OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::Open - this isn't a .wav file: %s", m_filePath.c_str() );
-        m_fileStream.close();
+        Close();
+        return false;
+    }
+
+    // extract data size information
+    if( !LocateChunk(g_dataChunk, m_dataSize, m_dataOffset) )
+    {
+        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::Open - data chunk not detected: %s", m_filePath.c_str() );
+        Close();
         return false;
     }
 
@@ -112,29 +120,26 @@ bool COAEWavFile::LoadWaveFormat()
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::LoadData()
+OAUInt32 COAEWavFile::PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead )
 {
-    if( !IsValid() ) 
+    if( m_dataOffset == 0 )
     {
-        return false;
+        return 0;
     }
 
-	OAUInt32 chunkSize, chunkPosition;
-
-    // locate and load the data chunk
-    if( !LocateChunk(g_dataChunk, chunkSize, chunkPosition) )
+    // make sure we don't try and read too much data
+    if( aBytesToRead > m_dataSize )
     {
-        return false;
+        aBytesToRead = m_dataSize;
     }
 
-    m_dataBuffer = new OAUInt8[chunkSize];
-    if( !ReadChunk(m_dataBuffer, chunkSize, chunkPosition) )
+    // read in the data
+    if( !ReadChunk(anAudioBuffer->pAudioData, aBytesToRead, m_dataOffset) )
     {
-        return false;
+        return 0;
     }
 
-    InitializeXAudioBuffer( chunkSize );
-    return true;
+    return aBytesToRead;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -218,7 +223,7 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset )
+bool COAEWavFile::ReadChunk( const void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset )
 {
     if( !m_fileStream.is_open() )
     {
@@ -243,18 +248,4 @@ bool COAEWavFile::ReadChunk( void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBuff
     return true;
 }
 
-//////////////////////////////////////////////////////////////////////////
-
-void COAEWavFile::InitializeXAudioBuffer( OAUInt32 aDataSize )
-{
-    if( !IsValid() )
-    {
-        return;
-    }
-
-    m_xaudioBuffer.AudioBytes = aDataSize;
-    m_xaudioBuffer.pAudioData = m_dataBuffer;
-    m_xaudioBuffer.Flags      = XAUDIO2_END_OF_STREAM;
-}
-
-//////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////

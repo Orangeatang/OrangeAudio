@@ -26,13 +26,19 @@ public:
     
     //////////////////////////////////////////////////////////////////////////
 
-    COAEVoiceManager( COAESourceManager* aSourceManager );
+    COAEVoiceManager( COAESourceManager* aSourceManager, IXAudio2* anXAudioInterface );
     ~COAEVoiceManager();
 
     //////////////////////////////////////////////////////////////////////////
 
     OAVoiceId   CreateVoice( const OASourceId& aSourceId );
     void        DestroyVoice( const OAVoiceId& aVoiceId );
+
+    bool        Play( const OAVoiceId& aVoiceId );
+
+    //////////////////////////////////////////////////////////////////////////
+
+    void        Update( OAFloat32 aDeltaTime );
 
 
 private:
@@ -45,6 +51,8 @@ private:
     //////////////////////////////////////////////////////////////////////////
 
     COAESourceManager*  m_sourceManager;
+    IXAudio2*           m_xaudio2Interface;
+
     OAEVoiceMap         m_voices;
     OAVoiceId           m_nextVoiceId;
 };

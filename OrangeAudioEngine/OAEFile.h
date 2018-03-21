@@ -28,7 +28,6 @@ public:
     virtual void            Close()             = 0;
 
     virtual bool            LoadWaveFormat()    = 0;
-    virtual bool            LoadData()          = 0;
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -42,6 +41,8 @@ protected:
 
     std::string     m_filePath;
 	std::fstream	m_fileStream;
+
+    OAUInt32        m_dataOffset;
 
     XAUDIO2_BUFFER  m_xaudioBuffer;
     OAUInt8*        m_dataBuffer;

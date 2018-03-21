@@ -28,42 +28,25 @@ COAEEmitterObject::~COAEEmitterObject()
 
 //////////////////////////////////////////////////////////////////////////
 
-OAVoiceId COAEEmitterObject::PlaySound( const std::string& anAudioFile, IXAudio2& anAudioInterface )
-{
-	// test loading a .wav file before hooking code up with file manager
-	COAEWavFile* wavFile = new COAEWavFile(1, anAudioFile);
-    wavFile->Open();
-    wavFile->LoadWaveFormat();
-    wavFile->LoadData();
-
-    HRESULT result = anAudioInterface.CreateSourceVoice( &m_voice, (WAVEFORMATEX*)(wavFile->GetWaveFormat()) );
-    if( result != S_OK )
-    {
-        return INVALID_AUDIO_VOICE;
-    }
-
-    result = m_voice->SubmitSourceBuffer( wavFile->GetAudioBuffer() );
-    if( result != S_OK )
-    {
-        return INVALID_AUDIO_VOICE;
-    }
-
-    result = m_voice->Start();
-    if( result != S_OK )
-    {
-        return INVALID_AUDIO_VOICE;
-    }
-
-	return 1;
-}
-
-//////////////////////////////////////////////////////////////////////////
-
 OAVoiceId COAEEmitterObject::PlaySound( const OASourceId& aSourceId )
 {
+    // create the voice
+    OAVoiceId newVoice = m_voiceManager->CreateVoice( aSourceId );
+    if( newVoice == INVALID_AUDIO_VOICE )
+    {
+        return INVALID_AUDIO_VOICE;
+    }
 
+    // try and play the voice
+    if( !m_voiceManager->Play(newVoice) ) 
+    {
+        m_voiceManager->DestroyVoice( newVoice );
+        return INVALID_AUDIO_VOICE;
+    }
 
-    return INVALID_AUDIO_VOICE;
+    // track the voice
+    m_voices.push_back( newVoice );
+    return newVoice;
 }
 
 //////////////////////////////////////////////////////////////////////////

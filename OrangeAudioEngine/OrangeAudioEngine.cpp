@@ -67,10 +67,6 @@ void COrangeAudioEngine::Uninitialize()
     m_xaudioInterface->Release();
     m_xaudioInterface = nullptr;
 
-    // delete the managers
-    delete m_voiceManager;
-    delete m_sourceManager;
-
     // make sure we clean up the logger
     OAELog->Destroy();
 }
@@ -178,7 +174,13 @@ OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const s
 		return INVALID_AUDIO_VOICE;
 	}
 
-	return emitter->PlaySound( anAudioFile, *m_xaudioInterface );
+    OASourceId sourceId = m_sourceManager->AddSource( anAudioFile );
+    if( sourceId == INVALID_AUDIO_SOURCE )
+    {
+        return INVALID_AUDIO_VOICE;
+    }
+
+	return emitter->PlaySound( sourceId );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -201,6 +203,18 @@ OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const O
 
 //////////////////////////////////////////////////////////////////////////
 
+void COrangeAudioEngine::Update( OAFloat32 aDeltaTime )
+{
+    if( !m_initialized )
+    {
+        return;
+    }
+
+    UpdateManagers( aDeltaTime );
+}
+
+//////////////////////////////////////////////////////////////////////////
+
 OAEmitterPtr COrangeAudioEngine::GetEmitter( const OAEmitterId& anEmitterId )
 {
 	auto emitter = m_emitters.find( anEmitterId );
@@ -219,21 +233,21 @@ bool COrangeAudioEngine::InitializeXAudio2()
     HRESULT result = S_FALSE;
 
     // initialize
-    CoInitializeEx(NULL, COINIT_MULTITHREADED);
+    CoInitializeEx( NULL, COINIT_MULTITHREADED );
 
     // create the xaudio2 interface
-    result = XAudio2Create(&m_xaudioInterface, 0, XAUDIO2_DEFAULT_PROCESSOR);
+    result = XAudio2Create( &m_xaudioInterface, 0, XAUDIO2_DEFAULT_PROCESSOR );
     if (result != S_OK)
     {
-        OAELog->LogMessage(ELogMesageType::ELogMessageType_Error, "Unable to create XAudio2 interface: %l", result);
+        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "Unable to create XAudio2 interface: %l", result );
         return false;
     }
 
     // create the mastering voice
-    result = m_xaudioInterface->CreateMasteringVoice(&m_xaudioMasteringVoice);
+    result = m_xaudioInterface->CreateMasteringVoice( &m_xaudioMasteringVoice );
     if (result != S_OK)
     {
-        OAELog->LogMessage(ELogMesageType::ELogMessageType_Error, "Unable to create mastering voice: %l", result);
+        OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "Unable to create mastering voice: %l", result );
         return false;
     }
 
@@ -243,7 +257,7 @@ bool COrangeAudioEngine::InitializeXAudio2()
     m_xaudioMasteringVoice->GetChannelMask(&channelMask);
 #else
 #endif
-    X3DAudioInitialize(channelMask, X3DAUDIO_SPEED_OF_SOUND, m_x3DInstance);
+    X3DAudioInitialize( channelMask, X3DAUDIO_SPEED_OF_SOUND, m_x3DInstance );
 
     return true;
 }
@@ -253,8 +267,15 @@ bool COrangeAudioEngine::InitializeXAudio2()
 bool COrangeAudioEngine::InitializeManagers()
 {
     m_sourceManager = new COAESourceManager();
-    m_voiceManager  = new COAEVoiceManager( m_sourceManager );
+    m_voiceManager  = new COAEVoiceManager( m_sourceManager, m_xaudioInterface );
     return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void COrangeAudioEngine::UpdateManagers( OAFloat32 aDeltaTime )
+{
+    m_voiceManager->Update( aDeltaTime );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -274,6 +295,10 @@ void COrangeAudioEngine::Cleanup()
         iterator->second = nullptr;
     }
     m_emitters.clear();
+
+    // delete the various managers
+    delete m_sourceManager;
+    delete m_voiceManager;
 }
 
 //////////////////////////////////////////////////////////////////////////

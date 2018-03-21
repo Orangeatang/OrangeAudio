@@ -14,7 +14,8 @@
 IOAESource::IOAESource( const OASourceId& anId ) :
     m_id( anId ),
     m_isValid( false ),
-    m_wavFormat( {0} )
+    m_wavFormat( {0} ),
+    m_dataSize( 0 )
 {
 }
 
@@ -43,6 +44,13 @@ bool IOAESource::IsValid() const
 const WAVEFORMATEXTENSIBLE* IOAESource::GetWaveFormat() const
 {
     return &m_wavFormat;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+const OAUInt32& IOAESource::GetDataSize() const
+{
+    return m_dataSize;
 }
 
 //////////////////////////////////////////////////////////////////////////

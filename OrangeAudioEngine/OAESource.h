@@ -23,9 +23,14 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
+    virtual OAUInt32            PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead ) = 0;
+
+    //////////////////////////////////////////////////////////////////////////
+
     const OASourceId&           GetId() const;
     bool                        IsValid() const;
     const WAVEFORMATEXTENSIBLE* GetWaveFormat() const;
+    const OAUInt32&             GetDataSize() const;
 
     //////////////////////////////////////////////////////////////////////////
     
@@ -42,6 +47,9 @@ protected:
 
     OASourceId              m_id;
     WAVEFORMATEXTENSIBLE    m_wavFormat;
+
+    OAUInt32                m_dataSize;
+
     bool                    m_isValid;
 };
 

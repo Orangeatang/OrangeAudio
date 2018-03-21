@@ -44,9 +44,15 @@ int main()
 
     // add a .wav source
     OASourceId sourceId = audioEngine->AddSource( "Data/RolandRhumba.wav" );
+    audioEngine->PlaySound( g_defaultEmitter, sourceId );
+
+    for( int i = 0; i < 100; ++i )
+    {
+        audioEngine->Update( 0 );
+    }
 
 	// play a sound
-	audioEngine->PlaySound( g_defaultEmitter, "Data/RolandRhumba.wav" );
+	//audioEngine->PlaySound( g_defaultEmitter, "Data/RolandRhumba.wav" );
 
 	// pause in case we want to inspect the COrangeAudioEngine instance
 	system( "pause" );

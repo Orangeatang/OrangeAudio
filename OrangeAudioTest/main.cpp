@@ -5,6 +5,11 @@
 
 #include <OrangeAudioEngine.h>
 
+#include <Windows.h>
+
+#include <thread>
+#include <iostream>
+
 
 //////////////////////////////////////////////////////////////////////////
 /// Globals
@@ -12,6 +17,14 @@
 
 static const OAInt64 g_defaultEmitter	= 0;
 static const OAInt64 g_defaultListener	= 0;
+static bool		     g_continueUpdating = true;
+
+
+//////////////////////////////////////////////////////////////////////////
+/// Function Prototypes
+//////////////////////////////////////////////////////////////////////////
+
+void UpdateAudioEngine( COrangeAudioEngine* anOrangeAudioEngine );
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -46,19 +59,33 @@ int main()
     OASourceId sourceId = audioEngine->AddSource( "Data/RolandRhumba.wav" );
     audioEngine->PlaySound( g_defaultEmitter, sourceId );
 
-    for( int i = 0; i < 100; ++i )
-    {
-        audioEngine->Update( 0 );
-    }
+	// create a thread to update the audio engine
+	std::thread audioUpdateThread = std::thread( UpdateAudioEngine, audioEngine );
 
-	// play a sound
-	//audioEngine->PlaySound( g_defaultEmitter, "Data/RolandRhumba.wav" );
+	// wait for user input before stopping
+	std::cout << "Press [enter] key to exit...";
+	std::getchar();
 
-	// pause in case we want to inspect the COrangeAudioEngine instance
-	system( "pause" );
+	// wait for the audio thread to stop
+	g_continueUpdating = false;
+	audioUpdateThread.join();
 
+	// clean up the audio engine instance
 	audioEngine->Uninitialize();
 	delete audioEngine;
 	
 	return 0;
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+void UpdateAudioEngine( COrangeAudioEngine* anOrangeAudioEngine )
+{
+	while( g_continueUpdating )
+	{
+		anOrangeAudioEngine->Update( 0.0f );
+		Sleep( 30 );
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////

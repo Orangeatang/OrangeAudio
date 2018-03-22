@@ -23,7 +23,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual OAUInt32            PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead ) = 0;
+    virtual bool				PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead ) = 0;
 
     //////////////////////////////////////////////////////////////////////////
 

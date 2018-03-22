@@ -22,12 +22,12 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool        Open() override;
-    void        Close() override;
+    bool	Open() override;
+    void    Close() override;
 
-    bool        LoadWaveFormat() override;
+    bool    LoadWaveFormat() override;
 
-    OAUInt32    PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead ) override;
+    bool    PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead ) override;
 
 
 private:
@@ -35,7 +35,7 @@ private:
     //////////////////////////////////////////////////////////////////////////
 
     bool LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSize, OAUInt32& aChunkPosition );
-    bool ReadChunk( const void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset );
+    bool ReadChunk( const void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset, OAUInt32& aBytesRead );
 };
 
 

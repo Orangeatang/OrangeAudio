@@ -45,7 +45,7 @@ bool COAEWavFile::Open()
     }
 
     // locate the RIFF chunk
-    OAUInt32 chunkSize, chunkPosition, fileType;
+    OAUInt32 chunkSize, chunkPosition, fileType, bytesRead;
     if (!LocateChunk(g_riffChunk, chunkSize, chunkPosition))
     {
         OAELog->LogMessage( ELogMesageType::ELogMessageType_Error, "OAEWavFile::Open - unable to locate RIFF chunk: %s", m_filePath.c_str() );
@@ -54,7 +54,7 @@ bool COAEWavFile::Open()
     }
 
     // read in the file type 
-    if( !ReadChunk(&fileType, chunkSize, chunkPosition) )
+    if( !ReadChunk(&fileType, chunkSize, chunkPosition, bytesRead) )
     {
         Close();
         return false;
@@ -100,7 +100,7 @@ bool COAEWavFile::LoadWaveFormat()
         return false;
     }
 
-    OAUInt32 chunkSize, chunkPosition;
+    OAUInt32 chunkSize, chunkPosition, bytesRead;
 
     // locate and load in the wave format structure
     if( !LocateChunk(g_formatChunk, chunkSize, chunkPosition) )
@@ -108,7 +108,7 @@ bool COAEWavFile::LoadWaveFormat()
         return false;
     }
 
-    if( !ReadChunk(&m_wavFormat, chunkSize, chunkPosition) )
+    if( !ReadChunk(&m_wavFormat, chunkSize, chunkPosition, bytesRead) )
     {
         return false;
     }
@@ -120,7 +120,7 @@ bool COAEWavFile::LoadWaveFormat()
 
 //////////////////////////////////////////////////////////////////////////
 
-OAUInt32 COAEWavFile::PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead )
+bool COAEWavFile::PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead )
 {
     if( m_dataOffset == 0 )
     {
@@ -134,12 +134,12 @@ OAUInt32 COAEWavFile::PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt
     }
 
     // read in the data
-    if( !ReadChunk(anAudioBuffer->pAudioData, aBytesToRead, m_dataOffset) )
+    if( !ReadChunk(anAudioBuffer->pAudioData, aBytesToRead, m_dataOffset, aBytesRead) )
     {
-        return 0;
+        return false;
     }
 
-    return aBytesToRead;
+    return true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -223,7 +223,7 @@ bool COAEWavFile::LocateChunk( const OAUInt32 aRiffChunkType, OAUInt32& aChunkSi
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::ReadChunk( const void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset )
+bool COAEWavFile::ReadChunk( const void* aBuffer, OAUInt32 aBufferSize, OAUInt32 aBufferOffset, OAUInt32& aBytesRead )
 {
     if( !m_fileStream.is_open() )
     {
@@ -241,10 +241,11 @@ bool COAEWavFile::ReadChunk( const void* aBuffer, OAUInt32 aBufferSize, OAUInt32
     m_fileStream.read( (char*)aBuffer, aBufferSize );
     if( !m_fileStream )
     {
-        std::streamsize read = m_fileStream.gcount();
+		aBytesRead = (OAUInt32)m_fileStream.gcount();
         return false;
     }
 
+	aBytesRead = (OAUInt32)m_fileStream.gcount();
     return true;
 }
 

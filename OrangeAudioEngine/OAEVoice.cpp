@@ -129,8 +129,9 @@ void COAEVoice::PrepareBuffers( COAESourceManager* aSourceManager )
         return;
     }
 
-    audioSource->PopulateAudioBuffer( m_audioBuffers, audioSource->GetDataSize() );
-    m_audioBuffers->AudioBytes = audioSource->GetDataSize();
+	OAUInt32 bytesRead = 0;
+    audioSource->PopulateAudioBuffer( m_audioBuffers, audioSource->GetDataSize(), bytesRead );
+    m_audioBuffers->AudioBytes = bytesRead;
 
     m_bufferReady = true;
 }

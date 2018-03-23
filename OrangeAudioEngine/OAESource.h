@@ -18,19 +18,21 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAESource( const OASourceId& anId );
+    IOAESource( const OASourceId& anId, bool anIsStreaming = false );
     virtual ~IOAESource();
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool				PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead ) = 0;
+    virtual bool				PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead, OAUInt32 aByteOffset = 0 ) = 0;
 
     //////////////////////////////////////////////////////////////////////////
 
     const OASourceId&           GetId() const;
-    bool                        IsValid() const;
+	bool						GetIsStreaming() const;
     const WAVEFORMATEXTENSIBLE* GetWaveFormat() const;
     const OAUInt32&             GetDataSize() const;
+    
+	bool                        IsValid() const;
 
     //////////////////////////////////////////////////////////////////////////
     
@@ -50,6 +52,7 @@ protected:
 
     OAUInt32                m_dataSize;
 
+	bool					m_isStreaming;
     bool                    m_isValid;
 };
 

@@ -19,7 +19,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAEFile( const OASourceId& anId, const std::string& aFilePath );
+    IOAEFile( const OASourceId& anId, const std::string& aFilePath, bool anIsStreaming = false );
     virtual ~IOAEFile();
 
     //////////////////////////////////////////////////////////////////////////

@@ -56,7 +56,7 @@ int main()
 	}
 
     // add a .wav source
-    OASourceId sourceId = audioEngine->AddSource( "Data/RolandRhumba.wav" );
+    OASourceId sourceId = audioEngine->AddSource( "Data/RolandRhumba.wav", true );
     audioEngine->PlaySound( g_defaultEmitter, sourceId );
 
 	// create a thread to update the audio engine

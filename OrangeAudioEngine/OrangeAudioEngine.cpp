@@ -149,19 +149,19 @@ void COrangeAudioEngine::UnregisterListener( const OAListenerId& anId )
 
 //////////////////////////////////////////////////////////////////////////
 
-OASourceId COrangeAudioEngine::AddSource( const std::string& aFileName )
+OASourceId COrangeAudioEngine::AddSource( const std::string& aFileName, bool anIsStreaming )
 {
     if( !m_initialized )
     {
         return INVALID_AUDIO_SOURCE;
     }
 
-    return m_sourceManager->AddSource( aFileName );
+    return m_sourceManager->AddSource( aFileName, anIsStreaming );
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile )
+OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile, bool anIsStreaming /* = false*/ )
 {
 	if( !m_initialized )
 	{
@@ -174,7 +174,7 @@ OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const s
 		return INVALID_AUDIO_VOICE;
 	}
 
-    OASourceId sourceId = m_sourceManager->AddSource( anAudioFile );
+    OASourceId sourceId = m_sourceManager->AddSource( anAudioFile, anIsStreaming );
     if( sourceId == INVALID_AUDIO_SOURCE )
     {
         return INVALID_AUDIO_VOICE;

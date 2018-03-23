@@ -41,7 +41,7 @@ COAESourceManager::~COAESourceManager()
 
 //////////////////////////////////////////////////////////////////////////
 
-OASourceId COAESourceManager::AddSource( const std::string& aFileName )
+OASourceId COAESourceManager::AddSource( const std::string& aFileName, bool anIsStreaming /* = false*/ )
 {   
     // find the file extension
     size_t extensionIndex = aFileName.find_last_of( "." );
@@ -63,7 +63,7 @@ OASourceId COAESourceManager::AddSource( const std::string& aFileName )
     OASourcePtr newSource = nullptr;
     if( extension == g_wavExtension )
     {
-        newSource = CreateWavFileSource( aFileName );
+        newSource = CreateWavFileSource( aFileName, anIsStreaming );
     }
 
     // add the source
@@ -114,10 +114,10 @@ bool COAESourceManager::IsValid( const OASourceId& aSourceId ) const
 
 //////////////////////////////////////////////////////////////////////////
 
-OASourcePtr COAESourceManager::CreateWavFileSource( const std::string& aFileName )
+OASourcePtr COAESourceManager::CreateWavFileSource( const std::string& aFileName, bool anIsStreaming )
 {
     // create the wav file
-    COAEWavFile* newWavFile = new COAEWavFile(m_nextSourceId++, aFileName);
+    COAEWavFile* newWavFile = new COAEWavFile( m_nextSourceId++, aFileName, anIsStreaming );
     if( newWavFile == nullptr )
     {
         return nullptr;

@@ -17,7 +17,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAEWavFile( const OASourceId& anId, const std::string& aFilePath );
+    COAEWavFile( const OASourceId& anId, const std::string& aFilePath, bool anIsStreaming = false );
     virtual ~COAEWavFile();
 
     //////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ public:
 
     bool    LoadWaveFormat() override;
 
-    bool    PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead ) override;
+    bool    PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead, OAUInt32 aByteOffset = 0 ) override;
 
 
 private:

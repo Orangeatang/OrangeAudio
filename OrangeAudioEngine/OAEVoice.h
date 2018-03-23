@@ -39,7 +39,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAEVoice( const OAVoiceId& aVoiceId, const OASourceId& aSourceId, bool isStreaming = false );
+    COAEVoice( const OAVoiceId& aVoiceId, const OASourceId& aSourceId );
     virtual ~COAEVoice();
 
     //////////////////////////////////////////////////////////////////////////
@@ -78,19 +78,24 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool                    InitializeBuffers( OAUInt32 aBufferSize );
+    bool                    InitializeBuffers();
+	void					PrepareFullDataBuffer( OASourcePtr anAudioSource );
+	void					PrepareNextStreamingBuffer( OASourcePtr anAudioSource );
+	
+	XAUDIO2_BUFFER*			GetNextFullBuffer();
+	XAUDIO2_BUFFER*			GetNextEmptyBuffer();
 
     //////////////////////////////////////////////////////////////////////////
 
-    OAVoiceId               m_id;
-    OASourceId              m_audioSourceId;
-    bool                    m_isStreaming;
+	OAVoiceId						m_id;
+	OASourceId						m_audioSourceId;
+	bool							m_isStreaming;
 
-    EVoiceState             m_state;
+	EVoiceState						m_state;
 
-    IXAudio2SourceVoice*    m_voice;
-    XAUDIO2_BUFFER*         m_audioBuffers;
-    OAUInt8                 m_activeBuffer;
+	IXAudio2SourceVoice*			m_voice;
+	std::vector<XAUDIO2_BUFFER*>	m_xaudioBuffers;
 
-    bool                    m_bufferReady;
+	OAUInt32						m_totalDataSize;
+	OAUInt32						m_totalBytesRead;
 };

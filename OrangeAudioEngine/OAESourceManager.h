@@ -23,7 +23,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    OASourceId  AddSource( const std::string& aFileName );
+    OASourceId  AddSource( const std::string& aFileName, bool anIsStreaming = false );
     OASourcePtr GetSource( const OASourceId& aSourceId );
 
     //////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    OASourcePtr CreateWavFileSource( const std::string& aFileName );
+    OASourcePtr CreateWavFileSource( const std::string& aFileName, bool anIsStreaming );
 
     //////////////////////////////////////////////////////////////////////////
 

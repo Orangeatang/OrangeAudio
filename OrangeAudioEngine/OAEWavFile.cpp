@@ -22,7 +22,7 @@ static const OAUInt32 g_waveChunk	= 'EVAW';
 /// COAEWavFile
 //////////////////////////////////////////////////////////////////////////
 
-COAEWavFile::COAEWavFile( const OASourceId& anId, const std::string& aFilePath ) : IOAEFile( anId, aFilePath )
+COAEWavFile::COAEWavFile( const OASourceId& anId, const std::string& aFilePath, bool anIsStreaming /* = false*/ ) : IOAEFile( anId, aFilePath, anIsStreaming )
 {
 }
 
@@ -120,7 +120,7 @@ bool COAEWavFile::LoadWaveFormat()
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEWavFile::PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead )
+bool COAEWavFile::PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aBytesToRead, OAUInt32& aBytesRead, OAUInt32 aByteOffset /* = 0*/ )
 {
     if( m_dataOffset == 0 )
     {
@@ -134,7 +134,7 @@ bool COAEWavFile::PopulateAudioBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 a
     }
 
     // read in the data
-    if( !ReadChunk(anAudioBuffer->pAudioData, aBytesToRead, m_dataOffset, aBytesRead) )
+    if( !ReadChunk(anAudioBuffer->pAudioData, aBytesToRead, m_dataOffset + aByteOffset, aBytesRead) )
     {
         return false;
     }

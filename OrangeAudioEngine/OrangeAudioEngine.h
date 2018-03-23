@@ -48,12 +48,12 @@ public :
 
     //////////////////////////////////////////////////////////////////////////
 
-    OASourceId      AddSource( const std::string& aFileName );
+    OASourceId      AddSource( const std::string& aFileName, bool anIsStreaming = false );
     void            RemoveSource( const OASourceId& aSourceId );
 
 	//////////////////////////////////////////////////////////////////////////
 
-	OAVoiceId   	PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile );
+	OAVoiceId   	PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile, bool anIsStreaming = false );
     OAVoiceId       PlaySound( const OAEmitterId& anEmitterId, const OASourceId& aSourceId );
 
     //////////////////////////////////////////////////////////////////////////

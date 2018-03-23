@@ -11,8 +11,9 @@
 /// IOAEAudioSource
 //////////////////////////////////////////////////////////////////////////
 
-IOAESource::IOAESource( const OASourceId& anId ) :
+IOAESource::IOAESource( const OASourceId& anId, bool anIsStreaming /* = false*/ ) :
     m_id( anId ),
+	m_isStreaming( anIsStreaming ),
     m_isValid( false ),
     m_wavFormat( {0} ),
     m_dataSize( 0 )
@@ -34,9 +35,9 @@ const OASourceId& IOAESource::GetId() const
 
 //////////////////////////////////////////////////////////////////////////
 
-bool IOAESource::IsValid() const
+bool IOAESource::GetIsStreaming() const
 {
-    return m_isValid;
+	return m_isStreaming;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,13 @@ const WAVEFORMATEXTENSIBLE* IOAESource::GetWaveFormat() const
 const OAUInt32& IOAESource::GetDataSize() const
 {
     return m_dataSize;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+bool IOAESource::IsValid() const
+{
+	return m_isValid;
 }
 
 //////////////////////////////////////////////////////////////////////////

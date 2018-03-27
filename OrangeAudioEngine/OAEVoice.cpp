@@ -30,7 +30,8 @@ COAEVoice::COAEVoice( const OAVoiceId& aVoiceId, const OASourceId& aSourceId ) :
     m_state( EVoiceState::EVoiceState_Invalid ),
     m_voice( nullptr ),
 	m_totalDataSize( 0 ),
-	m_totalBytesRead( 0 )
+	m_totalBytesRead( 0 ),
+	m_sourceType( ESourceType::ESourceType_Memory )
 {
 }
 
@@ -65,9 +66,9 @@ bool COAEVoice::Initialize( IXAudio2* anXaudio2Interface, COAESourceManager* aSo
     }
 
     // initialize the xaudio2 buffer(s)
-	m_isStreaming	= audioSource->GetIsStreaming();
+	m_sourceType	= audioSource->GetType();
 	m_totalDataSize = audioSource->GetDataSize();
-    if( !InitializeBuffers() )
+    if( !InitializeAudioBuffers() )
     {
         return false;
     }
@@ -128,13 +129,12 @@ void COAEVoice::Stop()
 	for( XAUDIO2_BUFFER* buffer : m_xaudioBuffers )
 	{
 		buffer->pContext = nullptr;
-		memset( (void*)buffer->pAudioData, 0, m_isStreaming ? g_streamingBufferSize : m_totalDataSize );
 	}
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAEVoice::PrepareBuffers( COAESourceManager* aSourceManager )
+void COAEVoice::Update( COAESourceManager* aSourceManager )
 {
 	if( m_state != EVoiceState::EVoiceState_Playing )
 	{
@@ -148,15 +148,7 @@ void COAEVoice::PrepareBuffers( COAESourceManager* aSourceManager )
         return;
     }
 
-	// fill up the next available audio buffer
-	if( m_isStreaming )
-	{
-		PrepareNextStreamingBuffer( audioSource );
-	}
-	else
-	{
-		PrepareFullDataBuffer( audioSource );
-	}
+	PopulateNextAudioBuffer( audioSource );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -233,11 +225,27 @@ void COAEVoice::OnVoiceError( void* aBufferContext, HRESULT anError )
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEVoice::InitializeBuffers()
+bool COAEVoice::InitializeAudioBuffers()
 {
 	// initialize the appropriate number of buffers based on whether the source is streaming
-	const OAUInt32 bufferCount	= m_isStreaming ? g_streamingBufferCount : 1;
-	const OAUInt32 bufferSize	= m_isStreaming ? g_streamingBufferSize : m_totalDataSize;
+	OAUInt32 bufferCount	= 0;
+	OAUInt32 bufferSize		= 0;
+	switch( m_sourceType )
+	{
+	case ESourceType::ESourceType_Memory:
+		bufferCount = 1;
+		bufferSize  = m_totalDataSize;
+		break;
+
+	case ESourceType::ESourceType_Procedural:
+	case ESourceType::ESourceType_Streaming:
+		bufferCount = g_streamingBufferCount;
+		bufferSize  = g_streamingBufferSize;
+		break;
+
+	default:
+		return false;
+	}
 
 	for( OAUInt8 i = 0; i < bufferCount; ++i )
 	{
@@ -253,47 +261,50 @@ bool COAEVoice::InitializeBuffers()
 
 //////////////////////////////////////////////////////////////////////////
 
-void COAEVoice::PrepareFullDataBuffer( OASourcePtr anAudioSource )
+void COAEVoice::PopulateNextAudioBuffer( OASourcePtr anAudioSource )
 {
-	// fill up an audio buffer with all of the data held by the source
 	XAUDIO2_BUFFER* audioBuffer = GetNextEmptyBuffer();
-	if( audioBuffer == nullptr || m_totalDataSize == m_totalBytesRead )
+	if( audioBuffer == nullptr )
 	{
 		return;
 	}
 
-	anAudioSource->PopulateAudioBuffer( audioBuffer, m_totalDataSize, m_totalBytesRead );
-	audioBuffer->AudioBytes = m_totalBytesRead;
-	audioBuffer->pContext   = nullptr;
-}
-
-//////////////////////////////////////////////////////////////////////////
-
-void COAEVoice::PrepareNextStreamingBuffer( OASourcePtr anAudioSource )
-{
-	// fill up an audio buffer with up to g_streamingBufferSize data from the audio source
-	XAUDIO2_BUFFER* audioBuffer = GetNextEmptyBuffer();
-	if( audioBuffer == nullptr || m_totalBytesRead == m_totalDataSize )
+	// work out how much data to read based on the source type
+	OAUInt32 bytesToRead = 0, bytesRead = 0, byteOffset = 0;
+	switch( m_sourceType )
 	{
-		return;
+	case ESourceType::ESourceType_Memory:
+		if( m_totalBytesRead == m_totalDataSize )
+		{
+			return;
+		}
+		bytesToRead = m_totalDataSize;
+		break;
+
+	case ESourceType::ESourceType_Streaming:
+		if( m_totalBytesRead == m_totalDataSize )
+		{
+			return;
+		}
+
+		bytesToRead = g_streamingBufferSize;
+		byteOffset  = m_totalBytesRead;
+		if( m_totalBytesRead + bytesToRead > m_totalDataSize )
+		{
+			bytesToRead = m_totalDataSize - m_totalBytesRead;
+		}
+		break;
+
+	case ESourceType::ESourceType_Procedural:
+		bytesToRead = g_streamingBufferSize;
+		break;
 	}
 
-	// cap the bytes to read to make sure we don't go over the size of the source data
-	OAUInt32 bytesRead		= 0;
-	OAUInt32 bytesToRead	= g_streamingBufferSize;
-	if( m_totalBytesRead + bytesToRead > m_totalDataSize )
-	{
-		bytesToRead = m_totalDataSize - m_totalBytesRead;
-	}
-
-	// use the audio source to populate the xaudio buffer
-	memset( (void*)audioBuffer->pAudioData, 0, g_streamingBufferSize );
-	anAudioSource->PopulateAudioBuffer( audioBuffer, bytesToRead, bytesRead, m_totalBytesRead );
+	// read in the data
+	anAudioSource->PopulateAudioBuffer( audioBuffer, bytesToRead, bytesRead, byteOffset );
 	audioBuffer->AudioBytes = bytesRead;
-	audioBuffer->pContext	= nullptr;
-
-	// keep track of how much data we've read
-	m_totalBytesRead += bytesRead;
+	audioBuffer->pContext	= nullptr; 
+	m_totalBytesRead		+= bytesRead;
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -150,6 +150,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="OAEFile.cpp" />
+    <ClCompile Include="OAEProceduralSource.cpp" />
+    <ClCompile Include="OAESineWave.cpp" />
     <ClCompile Include="OAESourceManager.cpp" />
     <ClCompile Include="OAEEmitterObject.cpp" />
     <ClCompile Include="OAESource.cpp" />
@@ -168,6 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OAEFile.h" />
+    <ClInclude Include="OAEProceduralSource.h" />
+    <ClInclude Include="OAESineWave.h" />
     <ClInclude Include="OAESourceManager.h" />
     <ClInclude Include="OAEEmitterObject.h" />
     <ClInclude Include="OAESource.h" />

@@ -17,7 +17,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    COAEWavFile( const OASourceId& anId, const std::string& aFilePath, bool anIsStreaming = false );
+    COAEWavFile( const OASourceId& anId, const std::string& aFilePath, ESourceType aSourceType );
     virtual ~COAEWavFile();
 
     //////////////////////////////////////////////////////////////////////////

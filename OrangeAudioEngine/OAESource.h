@@ -18,7 +18,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    IOAESource( const OASourceId& anId, bool anIsStreaming = false );
+    IOAESource( const OASourceId& anId, ESourceType aSourceType = ESourceType::ESourceType_Memory );
     virtual ~IOAESource();
 
     //////////////////////////////////////////////////////////////////////////
@@ -28,10 +28,10 @@ public:
     //////////////////////////////////////////////////////////////////////////
 
     const OASourceId&           GetId() const;
-	bool						GetIsStreaming() const;
+	ESourceType					GetType() const;
     const WAVEFORMATEXTENSIBLE* GetWaveFormat() const;
     const OAUInt32&             GetDataSize() const;
-    
+	
 	bool                        IsValid() const;
 
     //////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ protected:
 
     OAUInt32                m_dataSize;
 
-	bool					m_isStreaming;
+	ESourceType				m_type;
     bool                    m_isValid;
 };
 

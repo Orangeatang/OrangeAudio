@@ -4,21 +4,20 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "OAEPrecompiled.h"
-#include "OAEFile.h"
+#include "OAEProceduralSource.h"
 
 
 //////////////////////////////////////////////////////////////////////////
-/// IAudioFile
+/// IOAEProceduralSource
 //////////////////////////////////////////////////////////////////////////
 
-IOAEFile::IOAEFile( const OASourceId& anId, const std::string& aFilePath, ESourceType aSourceType ) : IOAESource( anId, aSourceType ),
-    m_filePath( aFilePath )
+IOAEProceduralSource::IOAEProceduralSource( const OASourceId& anId ) : IOAESource( anId, ESourceType::ESourceType_Procedural )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-IOAEFile::~IOAEFile()
+IOAEProceduralSource::~IOAEProceduralSource()
 {
 }
 

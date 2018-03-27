@@ -22,7 +22,7 @@ static const OAUInt32 g_waveChunk	= 'EVAW';
 /// COAEWavFile
 //////////////////////////////////////////////////////////////////////////
 
-COAEWavFile::COAEWavFile( const OASourceId& anId, const std::string& aFilePath, bool anIsStreaming /* = false*/ ) : IOAEFile( anId, aFilePath, anIsStreaming )
+COAEWavFile::COAEWavFile( const OASourceId& anId, const std::string& aFilePath, ESourceType aSourceType ) : IOAEFile( anId, aFilePath, aSourceType )
 {
 }
 

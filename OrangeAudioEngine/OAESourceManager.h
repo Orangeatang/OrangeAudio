@@ -23,7 +23,9 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    OASourceId  AddSource( const std::string& aFileName, bool anIsStreaming = false );
+    OASourceId  AddFileSource( const std::string& aFileName, bool anIsStreaming = false );
+	OASourceId	AddProceduralSource( EProceduralSource aProceduralSource );
+
     OASourcePtr GetSource( const OASourceId& aSourceId );
 
     //////////////////////////////////////////////////////////////////////////

@@ -1,14 +1,6 @@
-* OAEAudioObject
-	- maintains an active vector of COAESoundInstances
-	- COAESoundInstance:
-		derives from IXAudio2VoiceCallback
-		has audio source id
-		maintains XAUDIO2_BUFFER instances
-		uses file to populate data buffers
-
+* add an abstract 'Initialize' function to IOAESource
 * implement an audio object that generates it's own audio data, subclassed from audio object
 	- build a sine wave generator
-* implement ability to stream audio
 * build a DFT for processing audio signals
 * improve DFT by implementing an FFT
 * build a c# interface to the audio engine

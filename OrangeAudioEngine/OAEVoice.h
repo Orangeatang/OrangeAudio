@@ -5,6 +5,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include <OrangeAudioEngineDefs.h>
+#include <OAESource.h>
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -52,7 +53,7 @@ public:
     bool                    Play();
     void                    Stop();
 
-    void                    PrepareBuffers( COAESourceManager* aSourceManager );
+    void                    Update( COAESourceManager* aSourceManager );
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -78,9 +79,8 @@ private:
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool                    InitializeBuffers();
-	void					PrepareFullDataBuffer( OASourcePtr anAudioSource );
-	void					PrepareNextStreamingBuffer( OASourcePtr anAudioSource );
+    bool                    InitializeAudioBuffers();
+	void					PopulateNextAudioBuffer( OASourcePtr anAudioSource );
 	
 	XAUDIO2_BUFFER*			GetNextFullBuffer();
 	XAUDIO2_BUFFER*			GetNextEmptyBuffer();
@@ -89,7 +89,7 @@ private:
 
 	OAVoiceId						m_id;
 	OASourceId						m_audioSourceId;
-	bool							m_isStreaming;
+	ESourceType						m_sourceType;
 
 	EVoiceState						m_state;
 

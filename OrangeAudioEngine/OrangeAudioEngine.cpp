@@ -156,7 +156,7 @@ OASourceId COrangeAudioEngine::AddSource( const std::string& aFileName, bool anI
         return INVALID_AUDIO_SOURCE;
     }
 
-    return m_sourceManager->AddSource( aFileName, anIsStreaming );
+    return m_sourceManager->AddFileSource( aFileName, anIsStreaming );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -174,7 +174,7 @@ OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const s
 		return INVALID_AUDIO_VOICE;
 	}
 
-    OASourceId sourceId = m_sourceManager->AddSource( anAudioFile, anIsStreaming );
+    OASourceId sourceId = m_sourceManager->AddFileSource( anAudioFile, anIsStreaming );
     if( sourceId == INVALID_AUDIO_SOURCE )
     {
         return INVALID_AUDIO_VOICE;

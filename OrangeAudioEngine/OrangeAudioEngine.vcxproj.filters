@@ -16,8 +16,14 @@
     <Filter Include="Objects">
       <UniqueIdentifier>{5b049543-e12e-45a2-b785-b8b43e1eff91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources">
+    <Filter Include="Sources">
       <UniqueIdentifier>{18edc5f5-3f88-4d3c-ace9-9a7a335c436c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Files">
+      <UniqueIdentifier>{635c162e-eeb4-4712-bfd6-9870f031ca7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Procedural">
+      <UniqueIdentifier>{fb948af8-86ff-4bfb-8f0a-9c526ceb0167}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,14 +37,8 @@
     <ClCompile Include="OAEBasicTypes.cpp">
       <Filter>Maths</Filter>
     </ClCompile>
-    <ClCompile Include="OAEWavFile.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="OAESource.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="OAEFile.cpp">
-      <Filter>Resources</Filter>
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="OAESourceManager.cpp">
       <Filter>Managers</Filter>
@@ -51,6 +51,18 @@
     </ClCompile>
     <ClCompile Include="OAEVoiceManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="OAEFile.cpp">
+      <Filter>Sources\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OAEWavFile.cpp">
+      <Filter>Sources\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OAEProceduralSource.cpp">
+      <Filter>Sources\Procedural</Filter>
+    </ClCompile>
+    <ClCompile Include="OAESineWave.cpp">
+      <Filter>Sources\Procedural</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,17 +77,11 @@
     <ClInclude Include="OAEBasicTypes.h">
       <Filter>Maths</Filter>
     </ClInclude>
-    <ClInclude Include="OAEWavFile.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="OAEAudioIncludes.h">
       <Filter>Precompiled</Filter>
     </ClInclude>
     <ClInclude Include="OAESource.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="OAEFile.h">
-      <Filter>Resources</Filter>
+      <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="OAESourceManager.h">
       <Filter>Managers</Filter>
@@ -88,6 +94,18 @@
     </ClInclude>
     <ClInclude Include="OAEVoiceManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEFile.h">
+      <Filter>Sources\Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEWavFile.h">
+      <Filter>Sources\Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OAEProceduralSource.h">
+      <Filter>Sources\Procedural</Filter>
+    </ClInclude>
+    <ClInclude Include="OAESineWave.h">
+      <Filter>Sources\Procedural</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -63,4 +63,23 @@ typedef OAUInt64                                    OAListenerId;
 typedef OAUInt64                                    OASourceId;
 typedef OAInt32                                     OAVoiceId;
 
+
+//////////////////////////////////////////////////////////////////////////
+/// Enumerations
+//////////////////////////////////////////////////////////////////////////
+
+enum class ESourceType : OAUInt8
+{
+	ESourceType_Memory,			// loaded in to memory
+	ESourceType_Streaming,		// streamed from disk
+	ESourceType_Procedural		// procedurally generated
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+enum class EProceduralSource : OAUInt8
+{
+	EProceduralSource_SineWave
+};
+
 //////////////////////////////////////////////////////////////////////////

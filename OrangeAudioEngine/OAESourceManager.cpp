@@ -7,6 +7,7 @@
 #include "OAESourceManager.h"
 #include "OAELogger.h"
 #include "OAEWavFile.h"
+#include "OAESineWave.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -41,7 +42,7 @@ COAESourceManager::~COAESourceManager()
 
 //////////////////////////////////////////////////////////////////////////
 
-OASourceId COAESourceManager::AddSource( const std::string& aFileName, bool anIsStreaming /* = false*/ )
+OASourceId COAESourceManager::AddFileSource( const std::string& aFileName, bool anIsStreaming /* = false*/ )
 {   
     // find the file extension
     size_t extensionIndex = aFileName.find_last_of( "." );
@@ -74,6 +75,38 @@ OASourceId COAESourceManager::AddSource( const std::string& aFileName, bool anIs
     }
 
     return INVALID_AUDIO_SOURCE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+OASourceId COAESourceManager::AddProceduralSource( EProceduralSource aProceduralSource ) 
+{
+	OASourcePtr newSource = nullptr;
+	switch( aProceduralSource )
+	{
+	case EProceduralSource::EProceduralSource_SineWave:
+		{
+			COAESineWave* sineWaveSource = new COAESineWave( m_nextSourceId++ );
+			if( !sineWaveSource->Initialize() )
+			{
+				delete sineWaveSource;
+				break;
+			}
+			newSource =  OASourcePtr( sineWaveSource );
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	if( newSource != nullptr )
+	{
+		m_sources[newSource->GetId()] = newSource;
+		return newSource->GetId();
+	}
+
+	return INVALID_AUDIO_SOURCE;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -117,7 +150,7 @@ bool COAESourceManager::IsValid( const OASourceId& aSourceId ) const
 OASourcePtr COAESourceManager::CreateWavFileSource( const std::string& aFileName, bool anIsStreaming )
 {
     // create the wav file
-    COAEWavFile* newWavFile = new COAEWavFile( m_nextSourceId++, aFileName, anIsStreaming );
+    COAEWavFile* newWavFile = new COAEWavFile( m_nextSourceId++, aFileName, anIsStreaming ? ESourceType::ESourceType_Streaming : ESourceType::ESourceType_Memory );
     if( newWavFile == nullptr )
     {
         return nullptr;

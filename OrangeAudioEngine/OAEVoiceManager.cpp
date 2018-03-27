@@ -91,7 +91,7 @@ void COAEVoiceManager::Update( OAFloat32 aDeltaTime )
 {
     for( auto voice : m_voices )
     {
-        voice.second->PrepareBuffers( m_sourceManager );
+        voice.second->Update( m_sourceManager );
     }
 }
 

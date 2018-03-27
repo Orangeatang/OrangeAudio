@@ -11,9 +11,9 @@
 /// IOAEAudioSource
 //////////////////////////////////////////////////////////////////////////
 
-IOAESource::IOAESource( const OASourceId& anId, bool anIsStreaming /* = false*/ ) :
+IOAESource::IOAESource( const OASourceId& anId, ESourceType aSourceType /* = ESourceType::ESourceType_Memory*/ ) :
     m_id( anId ),
-	m_isStreaming( anIsStreaming ),
+	m_type( aSourceType ),
     m_isValid( false ),
     m_wavFormat( {0} ),
     m_dataSize( 0 )
@@ -35,9 +35,9 @@ const OASourceId& IOAESource::GetId() const
 
 //////////////////////////////////////////////////////////////////////////
 
-bool IOAESource::GetIsStreaming() const
+ESourceType IOAESource::GetType() const
 {
-	return m_isStreaming;
+	return m_type;
 }
 
 //////////////////////////////////////////////////////////////////////////

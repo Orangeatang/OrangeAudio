@@ -33,8 +33,17 @@ private:
 
 	//////////////////////////////////////////////////////////////////////////
 
-	OAFloat32 m_amplitude;
+	void PopulateByteBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aSampleCount );
+	void PopulateShortBuffer( XAUDIO2_BUFFER* anAudioBuffer, OAUInt32 aSampleCount );
+
+	//////////////////////////////////////////////////////////////////////////
+
 	OAFloat32 m_currentTime;
 	OAFloat32 m_deltaTime;
 	OAFloat32 m_frequency;
+
+	OAUInt32  m_sampleRate;
+	OAUInt16  m_channelCount;
+	OAUInt16  m_bytesPerChannel;
+	OAUInt16  m_power;
 };

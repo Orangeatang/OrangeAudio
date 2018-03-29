@@ -15,9 +15,7 @@
 /// Globals
 //////////////////////////////////////////////////////////////////////////
 
-static const OAInt64 g_defaultEmitter	= 0;
-static const OAInt64 g_defaultListener	= 0;
-static bool		     g_continueUpdating = true;
+static bool	g_continueUpdating = true;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -42,22 +40,34 @@ int main()
 	}
 
 	// register an emitter
-	if( !audioEngine->RegisterEmitter(g_defaultEmitter) )
+	OAEmitterId defaultEmitter = audioEngine->CreateEmitter();
+	if( defaultEmitter == INVALID_AUDIO_EMITTER )
 	{
+		audioEngine->Uninitialize();
 		delete audioEngine;
-		return -1;
-	}
-	
-	// register a listener
-	if( !audioEngine->RegisterListener(g_defaultListener) )
-	{
-		delete audioEngine;
+
 		return -1;
 	}
 
-    // add a .wav source
-    OASourceId sourceId = audioEngine->AddSource( "Data/RolandRhumba.wav", true );
-    audioEngine->PlaySound( g_defaultEmitter, sourceId );
+	// register a listener
+	OAListenerId defaultListener = audioEngine->CreateListener();
+	if( defaultListener == INVALID_AUDIO_LISTENER )
+	{
+		audioEngine->Uninitialize();
+		delete audioEngine;
+
+		return -1;
+	}
+
+	// create a file source (streaming)
+	OASourceId fileSource		= audioEngine->CreateFileSource( "Data/RolandRhumba.wav", true );
+
+	// create a procedural source 
+	OASourceId proceduralSource = audioEngine->CreateProceduralSource( EProceduralSource::EProceduralSource_SineWave );
+
+	// play the sources
+	//audioEngine->PlaySource( defaultEmitter, fileSource );
+	audioEngine->PlaySource( defaultEmitter, proceduralSource );
 
 	// create a thread to update the audio engine
 	std::thread audioUpdateThread = std::thread( UpdateAudioEngine, audioEngine );

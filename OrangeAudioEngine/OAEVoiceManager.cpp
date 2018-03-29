@@ -72,7 +72,7 @@ void COAEVoiceManager::DestroyVoice( const OAVoiceId& aVoiceId )
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COAEVoiceManager::Play( const OAVoiceId& aVoiceId )
+bool COAEVoiceManager::PlayVoice( const OAVoiceId& aVoiceId )
 {
     auto iterator = m_voices.find( aVoiceId );
     if( iterator != m_voices.end() )

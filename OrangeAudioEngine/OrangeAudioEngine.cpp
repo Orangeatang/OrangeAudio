@@ -18,6 +18,8 @@
 COrangeAudioEngine::COrangeAudioEngine() :
     m_xaudioInterface( nullptr ),
     m_sourceManager( nullptr ),
+	m_nextEmitterId( INVALID_AUDIO_EMITTER ),
+	m_nextListenerId( INVALID_AUDIO_LISTENER ),
     m_initialized( false )
 {
 }
@@ -73,28 +75,23 @@ void COrangeAudioEngine::Uninitialize()
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COrangeAudioEngine::RegisterEmitter( const OAEmitterId& anId )
+OAEmitterId COrangeAudioEngine::CreateEmitter()
 {
     if( !m_initialized )
     {
-        return false;
+        return INVALID_AUDIO_EMITTER;
     }
 
-    // make sure the emitter doesn't already exist
-    if( m_emitters.find(anId) != m_emitters.end() )
-    {
-        return false;
-    }
+	OAEmitterId		newID = ++m_nextEmitterId;
+    OAEmitterPtr	newEmitter( new COAEEmitterObject(newID, m_voiceManager) );
+    m_emitters[newID] = newEmitter;
 
-    OAEmitterPtr newEmitter( new COAEEmitterObject(anId, m_voiceManager) );
-    m_emitters[anId] = newEmitter;
-
-    return true;
+    return newID;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COrangeAudioEngine::UnregisterEmitter( const OAEmitterId& anId )
+void COrangeAudioEngine::DestroyEmitter( const OAEmitterId& anId )
 {
     if( !m_initialized )
     {
@@ -111,28 +108,23 @@ void COrangeAudioEngine::UnregisterEmitter( const OAEmitterId& anId )
 
 //////////////////////////////////////////////////////////////////////////
 
-bool COrangeAudioEngine::RegisterListener( const OAListenerId& anId )
+OAListenerId COrangeAudioEngine::CreateListener()
 {
     if( !m_initialized )
     {
-        return false;
+        return INVALID_AUDIO_LISTENER;
     }
 
-    // make sure the listener doesn't already exist;;;;
-    if( m_listeners.find(anId) != m_listeners.end() )
-    {
-        return false;
-    }
+	OAEmitterId		newId = ++m_nextListenerId;
+    OAEmitterPtr	newListener( new COAEEmitterObject(newId, m_voiceManager) );
+    m_listeners[newId] = newListener;
 
-    OAEmitterPtr newListener( new COAEEmitterObject(anId, m_voiceManager) );
-    m_listeners[anId] = newListener;
-
-    return true;
+    return newId;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void COrangeAudioEngine::UnregisterListener( const OAListenerId& anId )
+void COrangeAudioEngine::DestroyListener( const OAListenerId& anId )
 {
     if( !m_initialized )
     {
@@ -149,7 +141,7 @@ void COrangeAudioEngine::UnregisterListener( const OAListenerId& anId )
 
 //////////////////////////////////////////////////////////////////////////
 
-OASourceId COrangeAudioEngine::AddSource( const std::string& aFileName, bool anIsStreaming )
+OASourceId COrangeAudioEngine::CreateFileSource( const std::string& aFileName, bool anIsStreaming )
 {
     if( !m_initialized )
     {
@@ -161,7 +153,19 @@ OASourceId COrangeAudioEngine::AddSource( const std::string& aFileName, bool anI
 
 //////////////////////////////////////////////////////////////////////////
 
-OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile, bool anIsStreaming /* = false*/ )
+OASourceId COrangeAudioEngine::CreateProceduralSource( EProceduralSource aProceduralSource )
+{
+	if( !m_initialized )
+	{
+		return INVALID_AUDIO_SOURCE;
+	}
+
+	return m_sourceManager->AddProceduralSource( aProceduralSource );
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+OAVoiceId COrangeAudioEngine::PlaySource( const OAEmitterId& anEmitterId, const std::string& anAudioFile, bool anIsStreaming /* = false*/ )
 {
 	if( !m_initialized )
 	{
@@ -180,12 +184,12 @@ OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const s
         return INVALID_AUDIO_VOICE;
     }
 
-	return emitter->PlaySound( sourceId );
+	return emitter->PlaySource( sourceId );
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const OASourceId& aSourceId )
+OAVoiceId COrangeAudioEngine::PlaySource( const OAEmitterId& anEmitterId, const OASourceId& aSourceId )
 {
     if( !m_initialized )
     {
@@ -198,7 +202,7 @@ OAVoiceId COrangeAudioEngine::PlaySound( const OAEmitterId& anEmitterId, const O
         return INVALID_AUDIO_VOICE;
     }
 
-    return emitter->PlaySound( aSourceId );
+    return emitter->PlaySource( aSourceId );
 }
 
 //////////////////////////////////////////////////////////////////////////

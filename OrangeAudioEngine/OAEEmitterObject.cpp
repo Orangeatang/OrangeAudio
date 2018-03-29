@@ -28,7 +28,7 @@ COAEEmitterObject::~COAEEmitterObject()
 
 //////////////////////////////////////////////////////////////////////////
 
-OAVoiceId COAEEmitterObject::PlaySound( const OASourceId& aSourceId )
+OAVoiceId COAEEmitterObject::PlaySource( const OASourceId& aSourceId )
 {
     // create the voice
     OAVoiceId newVoice = m_voiceManager->CreateVoice( aSourceId );
@@ -38,7 +38,7 @@ OAVoiceId COAEEmitterObject::PlaySound( const OASourceId& aSourceId )
     }
 
     // try and play the voice
-    if( !m_voiceManager->Play(newVoice) ) 
+    if( !m_voiceManager->PlayVoice(newVoice) ) 
     {
         m_voiceManager->DestroyVoice( newVoice );
         return INVALID_AUDIO_VOICE;

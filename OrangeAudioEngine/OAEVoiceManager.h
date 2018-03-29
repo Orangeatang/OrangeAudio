@@ -34,7 +34,7 @@ public:
     OAVoiceId   CreateVoice( const OASourceId& aSourceId );
     void        DestroyVoice( const OAVoiceId& aVoiceId );
 
-    bool        Play( const OAVoiceId& aVoiceId );
+    bool        PlayVoice( const OAVoiceId& aVoiceId );
 
     //////////////////////////////////////////////////////////////////////////
 

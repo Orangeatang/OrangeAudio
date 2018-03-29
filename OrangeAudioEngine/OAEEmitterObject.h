@@ -31,7 +31,7 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 
-    OAVoiceId PlaySound( const OASourceId& aSourceId );
+    OAVoiceId PlaySource( const OASourceId& aSourceId );
 
 
 private:

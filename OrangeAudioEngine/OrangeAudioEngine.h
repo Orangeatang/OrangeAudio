@@ -40,21 +40,22 @@ public :
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool			RegisterEmitter( const OAEmitterId& anId );
-    void			UnregisterEmitter( const OAEmitterId& anId );
+    OAEmitterId  	CreateEmitter();
+    void			DestroyEmitter( const OAEmitterId& anId );
 
-    bool			RegisterListener( const OAListenerId& anId );
-    void			UnregisterListener( const OAListenerId& anId );
+    OAListenerId	CreateListener();
+    void			DestroyListener( const OAListenerId& anId );
 
     //////////////////////////////////////////////////////////////////////////
 
-    OASourceId      AddSource( const std::string& aFileName, bool anIsStreaming = false );
-    void            RemoveSource( const OASourceId& aSourceId );
+    OASourceId      CreateFileSource( const std::string& aFileName, bool anIsStreaming = false );
+	OASourceId		CreateProceduralSource( EProceduralSource aProceduralSource );
+    void            DestroySource( const OASourceId& aSourceId );
 
 	//////////////////////////////////////////////////////////////////////////
 
-	OAVoiceId   	PlaySound( const OAEmitterId& anEmitterId, const std::string& anAudioFile, bool anIsStreaming = false );
-    OAVoiceId       PlaySound( const OAEmitterId& anEmitterId, const OASourceId& aSourceId );
+	OAVoiceId   	PlaySource( const OAEmitterId& anEmitterId, const std::string& anAudioFile, bool anIsStreaming = false );
+    OAVoiceId       PlaySource( const OAEmitterId& anEmitterId, const OASourceId& aSourceId );
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -93,6 +94,9 @@ private:
 
     COAESourceManager*                  m_sourceManager;
     COAEVoiceManager*                   m_voiceManager;
+
+	OAEmitterId							m_nextEmitterId;
+	OAListenerId						m_nextListenerId;
 
     bool                                m_initialized;
 
